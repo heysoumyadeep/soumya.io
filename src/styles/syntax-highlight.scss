@@ -1,0 +1,294 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// Syntax Highlighting for Code Blocks
+// Balanced theme with good readability in both light and dark modes
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── Token color variables ────────────────────────────────────────────────────
+
+// Light mode
+$light-base:     #2d142c;
+$light-comment:  #6e5d6d;
+$light-keyword:  #a82c3e;
+$light-string:   #1d7a3a;
+$light-function: #1e5a8e;
+$light-number:   #b5530d;
+$light-operator: #801336;
+$light-class:    #6b1e4d;
+$light-bg:       #faf7f5;
+$light-border:   #e8ddd4;
+
+// Dark mode
+$dark-base:      #e8d5e7;
+$dark-comment:   #9d8f9c;
+$dark-keyword:   #ee8a8f;
+$dark-string:    #7dd896;
+$dark-function:  #a8c7fa;
+$dark-number:    #f5a962;
+$dark-operator:  #ee8a8f;
+$dark-class:     #d896d0;
+$dark-variable:  #f5c97f;
+$dark-property:  #a8c7fa;
+$dark-bg:        #1a0d19;
+
+// ── Code block container ─────────────────────────────────────────────────────
+
+.blog-post__body {
+
+  pre {
+    background: $light-bg;
+    border: 1px solid $light-border;
+    border-radius: 8px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    line-height: 1.6;
+
+    // Scrollbar
+    &::-webkit-scrollbar       { height: 8px; }
+    &::-webkit-scrollbar-track { background: transparent; border-radius: 4px; }
+    &::-webkit-scrollbar-thumb {
+      background: #d0c4cd;
+      border-radius: 4px;
+      &:hover { background: #a89aa6; }
+    }
+
+    code {
+      background: none;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      font-size: 0.875rem;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      display: block;
+      color: inherit;
+    }
+  }
+
+  // Inline code
+  code {
+    background: $light-bg;
+    border: 1px solid $light-border;
+    border-radius: 4px;
+    padding: 0.2em 0.4em;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.875em;
+    color: $light-keyword;
+  }
+
+  // Don't double-style code inside pre
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+  }
+}
+
+// ── Light mode tokens ────────────────────────────────────────────────────────
+
+.hljs {
+  color: $light-base;
+  background: transparent;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: $light-comment;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-type {
+  color: $light-keyword;
+  font-weight: 500;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-template-string {
+  color: $light-string;
+}
+
+.hljs-function .hljs-title,
+.hljs-title.function_,
+.hljs-built_in {
+  color: $light-function;
+  font-weight: 500;
+}
+
+.hljs-number {
+  color: $light-number;
+}
+
+.hljs-operator,
+.hljs-punctuation {
+  color: $light-operator;
+}
+
+.hljs-class .hljs-title,
+.hljs-title.class_ {
+  color: $light-class;
+  font-weight: 500;
+}
+
+.hljs-variable,
+.hljs-params,
+.hljs-property {
+  color: $light-base;
+}
+
+.hljs-tag,
+.hljs-name {
+  color: $light-keyword;
+}
+
+.hljs-attr,
+.hljs-attribute {
+  color: $light-function;
+}
+
+.hljs-meta,
+.hljs-meta .hljs-keyword {
+  color: $light-comment;
+}
+
+// ── Dark mode tokens ─────────────────────────────────────────────────────────
+
+[data-theme="dark"] {
+
+  .blog-post__body {
+
+    pre {
+      background: $dark-bg;
+      border: none;
+
+      &::-webkit-scrollbar-thumb {
+        background: #3d2139;
+        &:hover { background: #4d3149; }
+      }
+    }
+
+    code {
+      background: $dark-bg;
+      border-color: #3d2139;
+      color: $dark-keyword;
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+    }
+  }
+
+  .hljs {
+    color: $dark-base;
+  }
+
+  // Make sure base color applies everywhere
+  .hljs-code,
+  code.hljs {
+    color: $dark-base;
+  }
+
+  .hljs-comment,
+  .hljs-quote {
+    color: $dark-comment;
+    font-style: italic;
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-literal,
+  .hljs-type {
+    color: $dark-keyword;
+    font-weight: 500;
+  }
+
+  .hljs-string,
+  .hljs-regexp,
+  .hljs-template-string {
+    color: $dark-string;
+  }
+
+  .hljs-function .hljs-title,
+  .hljs-title.function_,
+  .hljs-built_in {
+    color: $dark-function;
+    font-weight: 500;
+  }
+
+  .hljs-number {
+    color: $dark-number;
+  }
+
+  .hljs-operator,
+  .hljs-punctuation {
+    color: $dark-operator;
+  }
+
+  .hljs-class .hljs-title,
+  .hljs-title.class_ {
+    color: $dark-class;
+    font-weight: 500;
+  }
+
+  .hljs-variable,
+  .hljs-params {
+    color: $dark-variable;
+  }
+
+  // Catch unclassified identifiers
+  .hljs-title:not(.function_):not(.class_),
+  .hljs-name:not(.hljs-tag .hljs-name) {
+    color: $dark-variable;
+  }
+
+  .hljs-property {
+    color: $dark-property;
+  }
+
+  .hljs-tag,
+  .hljs-name {
+    color: $dark-keyword;
+  }
+
+  .hljs-attr,
+  .hljs-attribute {
+    color: $dark-function;
+  }
+
+  .hljs-meta,
+  .hljs-meta .hljs-keyword {
+    color: $dark-comment;
+  }
+
+  .hljs-symbol,
+  .hljs-bullet {
+    color: $dark-number;
+  }
+
+  .hljs-selector-id,
+  .hljs-selector-class {
+    color: $dark-class;
+  }
+
+  .hljs-doctag {
+    color: $dark-comment;
+  }
+}
+
+// ── Shared token styles ──────────────────────────────────────────────────────
+
+.hljs-emphasis { font-style: italic; }
+.hljs-strong   { font-weight: 700; }
+
+.hljs-addition {
+  background-color: rgba(29, 122, 58, 0.1);
+}
+
+.hljs-deletion {
+  background-color: rgba(168, 44, 62, 0.1);
+}

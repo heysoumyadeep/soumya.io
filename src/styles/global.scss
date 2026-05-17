@@ -1,0 +1,178 @@
+@use './tokens.scss';
+@use './syntax-highlight.scss';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+img, svg { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+/* Theme transitions are scoped to a temporary class so they only run during
+   an actual toggle, not on every hover or scroll. */
+html.theme-flipping,
+html.theme-flipping *,
+html.theme-flipping *::before,
+html.theme-flipping *::after {
+  transition-property: background-color, background-image, border-color, color, fill, stroke;
+  transition-duration: var(--duration-theme);
+  transition-timing-function: var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.mono { font-family: var(--font-mono); letter-spacing: -0.01em; }
+
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.section { padding: var(--space-10) 0; position: relative; }
+
+@media (max-width: 768px) {
+  .section { padding: var(--space-9) 0; }
+  .container { padding: 0 var(--space-5); }
+}
+
+.reveal { opacity: 0; transform: translateY(24px); }
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--duration-reveal) var(--ease-out),
+              transform var(--duration-reveal) var(--ease-out);
+}
+
+::selection { background: var(--color-accent); color: var(--color-white); }
+
+/* Cursor glow, dark mode only. Driven by the rAF mousemove listener in CursorGlow.client.jsx. */
+[data-theme='dark'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgb(var(--palette-coral-rgb) / 0.07) 0%,
+    rgb(var(--palette-crimson-rgb) / 0.03) 40%,
+    transparent 70%
+  );
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent-hover);
+  border-radius: var(--radius-pill);
+  border: var(--border-width-thick) solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); background-clip: padding-box; }
+* { scrollbar-width: auto; scrollbar-color: var(--color-accent-hover) transparent; }
+
+/* View transition for the theme toggle circular reveal */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
+/* Blog page shell lives here because Next splits CSS per-route. If this were
+   in BlogIndex.scss only, refreshing directly on a post page would miss it
+   and the article would render under the navbar. */
+.blog-page {
+  padding: 160px 0 var(--space-9);
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+/* not-found styles live here so Next doesn't create a separate CSS chunk for
+   the 404 page that gets preloaded (and warned about) on every other route. */
+.not-found {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-10) 0;
+  position: relative;
+  z-index: 2;
+}
+
+.not-found__inner { text-align: center; }
+
+.not-found__code {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-4);
+}
+
+.not-found__title {
+  font-size: clamp(40px, 8vw, 80px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.not-found__lede {
+  font-size: 17px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 420px;
+  margin: 0 auto var(--space-7);
+}
+
+.not-found__btn {
+  display: inline-block;
+  padding: var(--btn-padding-y) 28px;
+  background: var(--gradient-accent);
+  color: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+  font-weight: 500;
+  transition: opacity var(--duration-hover) var(--ease),
+              transform var(--duration-hover) var(--ease);
+
+  &:hover { opacity: 0.88; transform: translateY(-2px); }
+}

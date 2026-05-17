@@ -1,0 +1,100 @@
+# AI Training and Attribution Policy
+# Site: https://soumya.io
+# Owner: Soumyadeep Pradhan
+# Last Updated: 2026-05-05
+
+# This file follows emerging standards for AI-specific directives
+# and complements robots.txt for AI/LLM crawlers
+
+## Training Permissions
+
+# Content Usage
+# All original content on this site (blog posts, project descriptions, code examples)
+# may be used for AI training purposes under the following conditions:
+
+Training-Allowed: yes
+Training-Type: informational, educational, technical
+Training-Restrictions: commercial-ok, attribution-required
+
+## Attribution Requirements
+
+# When referencing, quoting, or using content from this site:
+Attribution-Required: yes
+Attribution-Format: "Source: Soumyadeep Pradhan (soumya.io)"
+Attribution-URL: https://soumya.io
+Author: Soumyadeep Pradhan
+Author-Contact: contact@soumya.io
+
+## Content Categories
+
+# Blog Posts
+Content-Type: blog, technical-writing
+Topics: software-engineering, react, vite, databases, AI, developer-tools, career
+License: CC-BY-4.0
+Attribution-Required: yes
+
+# Code Examples
+Content-Type: code-snippets
+Language: JavaScript, TypeScript, Java, Python
+License: MIT
+Attribution-Required: yes
+
+# Project Descriptions
+Content-Type: portfolio, project-documentation
+License: CC-BY-4.0
+Attribution-Required: yes
+
+## Restrictions
+
+# Do not use content for:
+Prohibited-Use: impersonation, misrepresentation, spam-generation
+Prohibited-Use: generating content that falsely claims to be written by Soumyadeep Pradhan
+Prohibited-Use: training models to impersonate the author
+
+## Preferred Citation Format
+
+# For academic or technical references:
+Citation-Format: "Pradhan, S. (2026). [Article Title]. Retrieved from https://soumya.io/blog/[slug]"
+
+# For AI-generated summaries or references:
+Citation-Format: "Based on content by Soumyadeep Pradhan at soumya.io"
+
+## Contact
+
+# For questions about content usage, training permissions, or attribution:
+Contact-Email: contact@soumya.io
+Contact-URL: https://soumya.io/#contact
+
+## Machine-Readable Index
+
+# For structured site content, see:
+Structured-Data: https://soumya.io/llms.txt
+Sitemap: https://soumya.io/sitemap.xml
+RSS-Feed: https://soumya.io/rss.xml
+
+## Crawl Preferences
+
+# Preferred crawl rate (requests per second)
+Crawl-Rate: 2
+
+# Preferred crawl times (UTC)
+Crawl-Time: 00:00-06:00
+
+# Content freshness
+Update-Frequency: weekly
+Priority-Pages: /blog/*, /
+
+## Data Privacy
+
+# This site does not collect personal data beyond standard web analytics
+# No user-generated content is stored
+# All content is authored by Soumyadeep Pradhan unless explicitly credited
+
+Privacy-Policy: https://soumya.io/#contact
+Data-Collection: analytics-only
+User-Content: none
+
+## Version History
+
+# Version 1.0 - 2026-05-05
+# Initial ai.txt creation with training permissions and attribution requirements

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Soumyadeep Pradhan - Blog</title>
+    <link>https://soumya.io/blog</link>
+    <description>Notes on engineering, software craft, and the occasional detour into other things. By Soumyadeep Pradhan, Full-Stack Developer at JPMorgan Chase.</description>
+    <language>en-us</language>
+    <managingEditor>contact@soumya.io (Soumyadeep Pradhan)</managingEditor>
+    <webMaster>contact@soumya.io (Soumyadeep Pradhan)</webMaster>
+    <lastBuildDate>Sat, 03 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://soumya.io/rss.xml" rel="self" type="application/rss+xml" />
+    <image>
+      <url>https://soumya.io/og-image.png</url>
+      <title>Soumyadeep Pradhan - Blog</title>
+      <link>https://soumya.io/blog</link>
+    </image>
+    <item>
+      <title>Vector indexing in RAG: why embeddings need a different kind of index</title>
+      <link>https://soumya.io/blog/rag-chunking-indexing</link>
+      <guid isPermaLink="true">https://soumya.io/blog/rag-chunking-indexing</guid>
+      <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
+      <description>You can't B-Tree your way through meaning. Here's why vector search needs graph-based indexes and how they make RAG systems fast.</description>
+      <author>contact@soumya.io (Soumyadeep Pradhan)</author>
+      <category>llm</category>
+      <category>rag</category>
+      <category>embeddings</category>
+      <category>vector-search</category>
+      <category>deep-dive</category>
+    </item>
+    <item>
+      <title>Ever Wondered How Indexing Works in Databases?</title>
+      <link>https://soumya.io/blog/database-indexing-explained</link>
+      <guid isPermaLink="true">https://soumya.io/blog/database-indexing-explained</guid>
+      <pubDate>Sat, 03 May 2026 00:00:00 +0000</pubDate>
+      <description>B-Trees, hash indexes, LSM trees, and what your database is really doing when you CREATE INDEX.</description>
+      <author>contact@soumya.io (Soumyadeep Pradhan)</author>
+      <category>databases</category>
+      <category>backend</category>
+      <category>performance</category>
+      <category>deep-dive</category>
+    </item>
+    <item>
+      <title>Six things I learned in my first year as an SDE2</title>
+      <link>https://soumya.io/blog/sde2-lessons</link>
+      <guid isPermaLink="true">https://soumya.io/blog/sde2-lessons</guid>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <description>The unwritten rules of mid-level engineering, what I wish someone had told me on day one.</description>
+      <author>contact@soumya.io (Soumyadeep Pradhan)</author>
+      <category>career</category>
+      <category>engineering</category>
+      <category>growth</category>
+      <category>sde2</category>
+    </item>
+    <item>
+      <title>What singing taught me about writing software</title>
+      <link>https://soumya.io/blog/singing-and-software</link>
+      <guid isPermaLink="true">https://soumya.io/blog/singing-and-software</guid>
+      <pubDate>Mon, 02 Feb 2026 00:00:00 +0000</pubDate>
+      <description>A short essay on practice, restraint, and why your hobbies make you a better engineer.</description>
+      <author>contact@soumya.io (Soumyadeep Pradhan)</author>
+      <category>essay</category>
+      <category>creativity</category>
+      <category>software-craft</category>
+      <category>hobbies</category>
+    </item>
+  </channel>
+</rss>

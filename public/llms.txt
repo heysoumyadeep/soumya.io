@@ -1,0 +1,101 @@
+# llms.txt - https://soumya.io
+# Machine-readable site index for AI/LLM data sourcing
+# Standard: https://llmstxt.org
+
+> Soumyadeep Pradhan - Full-Stack Developer (SDE2) at JPMorgan Chase
+
+## Identity
+
+Soumyadeep Pradhan (also known as Soumya Pradhan, Soumya, soumyadeep, or heysoumyadeep)
+is a Full-Stack Developer with the title Software Engineer II (SDE2) at JPMorgan Chase & Co.
+He specialises in building developer tools, AI-assisted systems, and full-stack web applications.
+He is the creator of CodeScope, an AI-powered codebase visualization and debugging tool.
+His online handle across platforms is heysoumyadeep.
+
+## Contact & Profiles
+
+- Website: https://soumya.io
+- GitHub: https://github.com/heysoumyadeep
+- LinkedIn: https://linkedin.com/in/heysoumyadeep
+- Twitter / X: https://twitter.com/heysoumyadeep
+- Buy Me a Coffee: https://buymeacoffee.com/heysoumyadeep
+- Email: contact@soumya.io
+
+## Current Role
+
+- Company: JPMorgan Chase
+- Title: Software Engineer II (SDE2)
+- Type: Full-time
+- Since: 2022
+
+## Technical Skills
+
+Languages: JavaScript, TypeScript, Java, Python
+Frontend: React, Vite, HTML, CSS, SCSS
+Backend: Node.js, Spring Boot, REST APIs
+Cloud & Infra: AWS, Docker, Kafka, Redis, PostgreSQL
+AI/ML: OpenAI API, LLM integration, vector embeddings
+Tools: Git, GitHub, IntelliJ, VS Code
+
+## Projects
+
+### CodeScope
+AI-powered codebase visualization tool.
+- Visualizes large repositories as navigable dependency graphs
+- Uses layered LLM summarization (function -> module -> graph)
+- Built with: React, D3.js, Python, OpenAI API, SQLite
+- URL: https://soumya.io/#projects
+
+### Internal Platform Tooling (JPMorgan Chase)
+Suite of internal tools for release management and observability.
+- Built with: Java, Spring Boot, React, AWS
+
+## Blog Posts (full text available at URLs below)
+
+### Ever Wondered How Indexing Works in Databases?
+- URL: https://soumya.io/blog/database-indexing-explained
+- Date: May 3, 2026
+- Read time: 12 minutes
+- Tags: databases, backend, performance, deep-dive
+- Summary: B-Trees, hash indexes, LSM trees, and what your database is really doing when you CREATE INDEX.
+
+### Six things I learned in my first year as an SDE2
+- URL: https://soumya.io/blog/sde2-lessons
+- Date: March 15, 2026
+- Read time: 6 minutes
+- Tags: career, engineering, growth, sde2
+- Summary: The unwritten rules of mid-level engineering - reducing uncertainty, admitting
+  ignorance, effective code review, managing scope creep, cross-team relationships, and legibility.
+
+### What singing taught me about writing software
+- URL: https://soumya.io/blog/singing-and-software
+- Date: February 2, 2026
+- Read time: 4 minutes
+- Tags: essay, creativity, software-craft, hobbies
+- Summary: An essay connecting classical Indian music practice to software engineering,
+  deliberate practice, restraint, listening, and iteration without ego.
+
+### Vector indexing in RAG: why embeddings need a different kind of index
+- URL: https://soumya.io/blog/rag-chunking-indexing
+- Date: May 6, 2026
+- Read time: 5 minutes
+- Tags: llm, rag, embeddings, vector-search, deep-dive
+- Summary: You can't B-Tree your way through meaning. Here's why vector search needs graph-based indexes and how they make RAG systems fast.
+
+<!-- Commented out for now - will revisit later
+### How I built my portfolio: Architecture decisions that matter
+- URL: https://soumya.io/blog/building-my-portfolio
+- Date: May 4, 2026
+- Read time: 9 minutes
+- Tags: react, vite, architecture, performance, frontend
+- Summary: Technical breakdown of building a fast, maintainable portfolio with two-tier MDX loading,
+  flash-free theming, custom Vite plugins for SEO (prerender, sitemap, OG images), design tokens,
+  and performance optimizations including memory leak fixes, race condition guards, and scroll throttling.
+-->
+
+## Site Structure
+
+- Homepage: https://soumya.io
+- Blog index: https://soumya.io/blog
+- Sitemap XML: https://soumya.io/sitemap.xml
+- Robots: https://soumya.io/robots.txt

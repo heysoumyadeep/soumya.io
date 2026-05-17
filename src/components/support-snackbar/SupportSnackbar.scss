@@ -1,0 +1,138 @@
+/* Snackbar */
+
+.support-snackbar {
+  position: fixed;
+  bottom: var(--snackbar-bottom);
+  right: var(--space-5);
+  z-index: var(--z-snackbar);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-xl);
+  padding: var(--space-3) 14px var(--space-3) var(--space-4);
+  box-shadow: 0 12px 40px -8px var(--color-shadow),
+              0 var(--space-1) var(--space-4) -4px rgb(var(--rgb-black) / 0.12);
+  max-width: var(--snackbar-max-width);
+  width: max-content;
+  opacity: 0;
+  transform: translateY(var(--space-4));
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease-out),
+              transform 0.35s var(--ease-out),
+              box-shadow var(--duration-hover) ease;
+
+  &--visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  &:hover {
+    box-shadow: 0 var(--space-4) 48px -8px var(--color-shadow),
+                0 var(--space-1) 20px -4px rgb(var(--rgb-black) / 0.15);
+  }
+}
+
+.support-snackbar__icon {
+  font-size: var(--icon-size-md);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.support-snackbar__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.support-snackbar__text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.support-snackbar__sub {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.support-snackbar__cta {
+  flex-shrink: 0;
+  width: var(--icon-size-lg);
+  height: var(--icon-size-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--gradient-accent);
+  color: var(--color-white);
+  border: none;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity var(--duration-hover) ease,
+              transform var(--duration-hover) ease,
+              box-shadow var(--duration-hover) ease;
+  box-shadow: 0 var(--space-1) var(--space-3) -2px rgb(var(--palette-crimson-rgb) / 0.4);
+}
+
+.support-snackbar__bmc-logo {
+  width: var(--space-5);
+  height: var(--space-5);
+  filter: brightness(0) invert(1);
+  pointer-events: none;
+}
+
+.support-snackbar__close {
+  flex-shrink: 0;
+  width: var(--control-height-sm);
+  height: var(--control-height-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-dim);
+  font-size: 10px;
+  border-radius: 50%;
+  transition: color var(--duration-hover) ease,
+              background-color var(--duration-hover) ease;
+  z-index: 1;
+
+  &:hover {
+    color: var(--color-text);
+    background: var(--color-surface-alt);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .support-snackbar {
+    left: var(--space-3);
+    right: var(--space-3);
+    bottom: var(--space-3);
+    max-width: 100%;
+    width: auto;
+    border-radius: var(--radius-lg);
+  }
+}
+
+/* Hide default BMC button */
+
+#bmc-wbtn { display: none !important; }
+
+/* BMC modal sizing */
+
+div[class*="bmc-"] iframe,
+iframe[src*="buymeacoffee"] {
+  max-width: 420px !important;
+  max-height: min(70vh, 580px) !important;
+  height: min(70vh, 580px) !important;
+}

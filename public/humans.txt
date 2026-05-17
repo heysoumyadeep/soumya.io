@@ -1,0 +1,18 @@
+/* TEAM */
+Developer: Soumyadeep Pradhan
+Site: https://soumya.io
+Location: Pune, India
+GitHub: https://github.com/heysoumyadeep
+LinkedIn: https://linkedin.com/in/heysoumyadeep
+Twitter: @heysoumyadeep
+
+/* SITE */
+Standards: HTML5, CSS3, JavaScript ES2024
+Components: React, Next.js, MDX
+Styling: SCSS, CSS Custom Properties
+Fonts: Poppins, JetBrains Mono
+Analytics: Google Analytics
+Hosting: GitHub Pages
+
+/* THANKS */
+Built with care and attention to detail.

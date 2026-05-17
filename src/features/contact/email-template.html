@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <!--
+    color-scheme tells supporting clients (Apple Mail, Outlook on Mac)
+    that this email is intentionally dark â€” do not invert it.
+  -->
+  <meta name="color-scheme" content="dark" />
+  <meta name="supported-color-schemes" content="dark" />
+  <title>Heard you loud and clear ðŸ”¥</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* â”€â”€ Reset â”€â”€ */
+    * { box-sizing: border-box; }
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+
+    /*
+      color-scheme in CSS â€” tells Apple Mail / Samsung Mail to keep dark mode
+      and not auto-invert. Gmail ignores this but it helps other clients.
+    */
+    :root { color-scheme: dark; supported-color-schemes: dark; }
+
+    /*
+      Gmail Android dark mode inversion resistance.
+      Gmail forces a white background on the <body> and inverts elements
+      it thinks are "light". The u+0020 hack and !important on background-color
+      on key containers prevents the worst of it.
+    */
+    u + .email-body-wrapper { background-color: #1c031b !important; }
+    u + .email-body-wrapper .email-card { background-color: #2d142c !important; }
+    u + .email-body-wrapper .email-body-td { background-color: #2d142c !important; }
+    u + .email-body-wrapper .email-footer-td { background-color: #160215 !important; }
+
+    /* â”€â”€ Mobile â”€â”€ */
+    @media only screen and (max-width: 620px) {
+      .email-outer  { padding: 0 !important; }
+      .email-card   { width: 100% !important; border-radius: 0 !important; }
+      .email-header { padding: 32px 24px 28px !important; }
+      .email-body-td { padding: 28px 24px 24px !important; }
+      .email-footer-td { padding: 18px 24px !important; }
+      .social-row   { padding: 0 24px 28px !important; }
+
+      h1.headline   { font-size: 22px !important; }
+      h2.greeting   { font-size: 18px !important; }
+      p.body-text   { font-size: 14px !important; }
+
+      /* Stack BMC card vertically */
+      .bmc-inner    { display: block !important; }
+      .bmc-text-td  { display: block !important; width: 100% !important; padding-right: 0 !important; padding-bottom: 16px !important; }
+      .bmc-btn-td   { display: block !important; width: 100% !important; text-align: center !important; white-space: normal !important; }
+      .bmc-btn      { width: 100% !important; text-align: center !important; display: block !important; }
+
+      .social-td    { display: inline-block !important; padding: 4px 4px !important; }
+
+      .cta-btn      { width: 100% !important; text-align: center !important; }
+      .cta-btn a    { display: block !important; }
+    }
+  </style>
+  <!--[if mso]>
+  <noscript>
+    <xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml>
+  </noscript>
+  <![endif]-->
+</head>
+
+<!--
+  The u+0020 (invisible Unicode space) before .email-body-wrapper is the
+  Gmail-specific CSS selector trick â€” Gmail wraps the body in a <u></u> tag,
+  so "u + .email-body-wrapper" only matches inside Gmail, letting us override
+  its forced background colors.
+-->
+<body style="margin:0;padding:0;background-color:#1c031b;font-family:'Poppins','Segoe UI',Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+&#8203;
+  <!-- Outer wrapper â€” class used for Gmail u+ selector hack -->
+  <div class="email-body-wrapper" style="background-color:#1c031b;">
+  <table role="presentation" class="email-outer" width="100%" cellpadding="0" cellspacing="0" border="0"
+    style="background-color:#1c031b;padding:40px 16px;">
+    <tr>
+      <td align="center">
+
+        <!-- Card -->
+        <table role="presentation" class="email-card" cellpadding="0" cellspacing="0" border="0"
+          style="max-width:600px;width:100%;border-radius:20px;overflow:hidden;background-color:#2d142c;box-shadow:0 12px 48px rgba(238,69,64,0.22);">
+
+          <!-- â”€â”€ HEADER (gradient â€” Gmail won't invert gradients) â”€â”€ -->
+          <tr>
+            <td class="email-header" style="background:linear-gradient(145deg,#ee4540 0%,#c72c41 45%,#801336 100%);padding:44px 40px 36px;text-align:center;">
+
+              <!-- Logo circle -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 20px;">
+                <tr>
+                  <td style="width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.28);text-align:center;vertical-align:middle;overflow:hidden;">
+                    <img
+                      src="https://soumya.io/favicon.svg"
+                      alt="S"
+                      width="44"
+                      height="44"
+                      style="display:block;margin:12px auto;border:0;"
+                    />
+                  </td>
+                </tr>
+              </table>
+
+              <h1 class="headline" style="margin:0 0 8px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:28px;font-weight:700;color:#ffffff;letter-spacing:-0.5px;line-height:1.2;">
+                Message received.<br/>
+                <span style="font-size:16px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:0;">(and yes, it made my day ðŸ˜„)</span>
+              </h1>
+              <p style="margin:8px 0 0;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,0.7);letter-spacing:1.2px;text-transform:uppercase;">
+                soumya.io &nbsp;Â·&nbsp; Full-Stack Developer
+              </p>
+            </td>
+          </tr>
+
+          <!-- Accent stripe -->
+          <tr>
+            <td style="height:3px;background:linear-gradient(90deg,#ee4540,#c72c41,#510a32);font-size:0;line-height:0;">&nbsp;</td>
+          </tr>
+
+          <!-- â”€â”€ BODY â”€â”€ -->
+          <tr>
+            <!--
+              background-color repeated here so Gmail's per-cell inversion
+              targets the right dark value instead of flipping to white.
+            -->
+            <td class="email-body-td" style="padding:40px 40px 32px;background-color:#2d142c;">
+
+              <h2 class="greeting" style="margin:0 0 20px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:22px;font-weight:600;color:#fdf6f0;line-height:1.3;">
+                Hey there ðŸ¤™ðŸ»
+              </h2>
+
+              <p class="body-text" style="margin:0 0 16px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:400;color:#d4b8c8;line-height:1.8;">
+                Your message just dropped into my inbox â€” not into some void, not into a ticketing systemâ€¦ straight to me.
+              </p>
+
+              <p class="body-text" style="margin:0 0 16px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:400;color:#d4b8c8;line-height:1.8;">
+                I read every message personally, so you're not talking to a bot pretending to care. Real human here. Give me a little time â€” I'll get back to you soon.
+              </p>
+
+              <p class="body-text" style="margin:0 0 32px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:400;color:#d4b8c8;line-height:1.8;">
+                In the meantime, feel free to explore my work. Who knows, you might find something that sparks an idea, a collabâ€¦ or at least a <span style="color:#ee4540;font-weight:600;">"this is cool"</span> moment.
+              </p>
+
+              <!-- CTA button -->
+              <table role="presentation" class="cta-btn" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 36px;">
+                <tr>
+                  <td style="border-radius:10px;background:#c72c41;">
+                    <a href="https://soumya.io"
+                      style="display:inline-block;padding:14px 32px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;letter-spacing:0.4px;border-radius:10px;background:#c72c41;">
+                      Take a look around â†’
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Divider -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="border-top:1px solid #4a1a3a;font-size:0;line-height:0;">&nbsp;</td>
+                </tr>
+              </table>
+
+              <!-- â”€â”€ BUY ME A COFFEE â”€â”€ -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                style="background-color:#3d1a38;border:1px solid #5a1a44;border-radius:14px;overflow:hidden;">
+                <tr>
+                  <td style="padding:22px 24px;">
+                    <table role="presentation" class="bmc-inner" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td class="bmc-text-td" style="vertical-align:middle;padding-right:20px;">
+                          <p style="margin:0 0 5px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:700;color:#fdf6f0;line-height:1.3;">
+                            â˜• Late-night builds run on caffeine
+                          </p>
+                          <p style="margin:0;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:12px;font-weight:400;color:#a07890;line-height:1.65;">
+                            (and curiosity). If something I built helped you or inspired you, a coffee is always appreciated â€” never expected.
+                          </p>
+                        </td>
+                        <td class="bmc-btn-td" style="vertical-align:middle;white-space:nowrap;">
+                          <a class="bmc-btn" href="https://buymeacoffee.com/heysoumyadeep"
+                            style="display:inline-block;padding:12px 20px;background:#FFDD00;border-radius:9px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:13px;font-weight:700;color:#000000;text-decoration:none;white-space:nowrap;letter-spacing:0.2px;">
+                            â˜• Buy me a coffee
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- â”€â”€ SOCIAL LINKS â”€â”€ -->
+          <tr>
+            <td class="social-row" style="padding:0 40px 36px;text-align:center;background-color:#2d142c;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+                <tr>
+                  <!-- GitHub â€” red fill survives Gmail inversion on both light/dark -->
+                  <td class="social-td" style="padding:0 8px;">
+                    <a href="https://github.com/heysoumyadeep" title="GitHub"
+                      style="display:inline-block;width:44px;height:44px;border-radius:50%;background-color:#3d1a38;border:1px solid #c72c41;text-align:center;vertical-align:middle;text-decoration:none;">
+                      <img
+                        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5OCA5NiI+PHBhdGggZmlsbD0iI2M3MmM0MSIgZD0iTTQ4Ljg1NCAwQzkuMTEyIDAgMCA5LjExMyAwIDQ4Ljg1NWMwIDIxLjU5IDEzLjk5MyAzOS45NjQgMzMuNDA1IDQ2LjQ5IDIuNDI3LjQ5IDMuMzE2LTEuMDU5IDMuMzE2LTIuMzYyIDAtMS4xNDEtLjA4LTUuMDUyLS4wOC05LjEyNy0xMy41OSAyLjkzNC0xNi40Mi01Ljg2Ny0xNi40Mi01Ljg2Ny0yLjE4NC01LjcwNC01LjQyLTcuMTctNS40Mi03LjE3LTQuNDMyLTMuMDE1LjMyNC0zLjAxNS4zMjQtMy4wMTUgNC45MzQuMzI2IDcuNTIzIDUuMDUyIDcuNTIzIDUuMDUyIDQuMzY3IDcuNDc2IDExLjQwNyA1LjM3OCAxNC4yMyA0LjEyNS40MzUtMy4yMTMgMS43MDgtNS4zNzggMy4wNzQtNi42MTctMTAuODM5LTEuMTQxLTIyLjI0My01LjM3OC0yMi4yNDMtMjQuMjgzIDAtNS4zNzggMS45NC05Ljc3OCA1LjAxNC0xMy4yMTctLjQ4OS0xLjIyNi0yLjE4NC02LjI3NS40ODktMTMuMDM4IDAgMCA0LjEyNS0xLjMwNCAxMy40MjYgNS4wNTJhNDYuOTcgNDYuOTcgMCAwIDEgMTIuMjE0LTEuNjNjNC4xMjUgMCA4LjI1LjU3MSAxMi4yMTMgMS42MyA5LjMwMi02LjM1NiAxMy40MjctNS4wNTIgMTMuNDI3LTUuMDUyIDIuNjcyIDYuNzYzLjk3NyAxMS44MTIuNDg4IDEzLjAzOCAzLjE1NSAzLjQzOSA1LjAxNCA3LjgzOSA1LjAxNCAxMy4yMTcgMCAxOC45MDUtMTEuNDA3IDIzLjA2LTIyLjMyNCAyNC4yODMgMS43OCAxLjU0OCAzLjMxNiA0LjQ4MSAzLjMxNiA5LjEyNiAwIDYuNjE3LS4wOCAxMS45NS0uMDggMTMuNjA3IDAgMS4zMDQuODg5IDIuODUzIDMuMzE2IDIuMzYyQzg0LjAwNyA4OC44MiA5OCA3MC40NDUgOTggNDguODU1IDk4IDkuMTEzIDg4LjU5NiAwIDQ4Ljg1NCAweiIvPjwvc3ZnPg=="
+                        alt="GitHub"
+                        width="22"
+                        height="22"
+                        style="display:block;margin:11px auto;border:0;"
+                      />
+                    </a>
+                  </td>
+
+                  <!-- LinkedIn -->
+                  <td class="social-td" style="padding:0 8px;">
+                    <a href="https://linkedin.com/in/heysoumyadeep" title="LinkedIn"
+                      style="display:inline-block;width:44px;height:44px;border-radius:50%;background-color:#3d1a38;border:1px solid #c72c41;text-align:center;vertical-align:middle;text-decoration:none;">
+                      <img
+                        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2M3MmM0MSIgZD0iTTIwLjQ0NyAyMC40NTJoLTMuNTU0di01LjU2OWMwLTEuMzI4LS4wMjctMy4wMzctMS44NTItMy4wMzctMS44NTMgMC0yLjEzNiAxLjQ0NS0yLjEzNiAyLjkzOXY1LjY2N0g5LjM1MVY5aDMuNDE0djEuNTYxaC4wNDZjLjQ3Ny0uOSAxLjYzNy0xLjg1IDMuMzctMS44NSAzLjYwMSAwIDQuMjY3IDIuMzcgNC4yNjcgNS40NTV2Ni4yODZ6TTUuMzM3IDcuNDMzYTIuMDYyIDIuMDYyIDAgMCAxLTIuMDYzLTIuMDY1IDIuMDY0IDIuMDY0IDAgMSAxIDIuMDYzIDIuMDY1em0xLjc4MiAxMy4wMTlIMy41NTVWOWgzLjU2NHYxMS40NTJ6TTIyLjIyNSAwSDEuNzcxQy43OTIgMCAwIC43NzQgMCAxLjcyOXYyMC41NDJDMCAyMy4yMjcuNzkyIDI0IDEuNzcxIDI0aDIwLjQ1MUMyMy4yIDI0IDI0IDIzLjIyNyAyNCAyMi4yNzFWMS43MjlDMjQgLjc3NCAyMy4yIDAgMjIuMjIyIDBoLjAwM3oiLz48L3N2Zz4="
+                        alt="LinkedIn"
+                        width="22"
+                        height="22"
+                        style="display:block;margin:11px auto;border:0;"
+                      />
+                    </a>
+                  </td>
+
+                  <!-- X / Twitter -->
+                  <td class="social-td" style="padding:0 8px;">
+                    <a href="https://twitter.com/heysoumyadeep" title="Twitter / X"
+                      style="display:inline-block;width:44px;height:44px;border-radius:50%;background-color:#3d1a38;border:1px solid #c72c41;text-align:center;vertical-align:middle;text-decoration:none;">
+                      <img
+                        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2M3MmM0MSIgZD0iTTE4LjI0NCAyLjI1aDMuMzA4bC03LjIyNyA4LjI2IDguNTAyIDExLjI0SDE2LjE3bC01LjIxNC02LjgxN0w0Ljk5IDIxLjc1SDEuNjgybDcuNzMtOC44MzVMMS4yNTQgMi4yNUg4LjA4bDQuNzEzIDYuMjMxem0tMS4xNjEgMTcuNTJoMS44MzNMNy4wODQgNC4xMjZINS4xMTd6Ii8+PC9zdmc+"
+                        alt="X / Twitter"
+                        width="22"
+                        height="22"
+                        style="display:block;margin:11px auto;border:0;"
+                      />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- â”€â”€ FOOTER â”€â”€ -->
+          <tr>
+            <td class="email-footer-td" style="background-color:#160215;padding:22px 40px;text-align:center;border-top:1px solid #3a0a2a;">
+              <p style="margin:0 0 5px;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:11px;font-weight:400;color:#7a4a6a;line-height:1.7;">
+                Built, designed, and replied to by <a href="https://soumya.io" style="color:#c72c41;text-decoration:none;">Soumyadeep Pradhan</a>.
+              </p>
+              <p style="margin:0;font-family:'Poppins','Segoe UI',Arial,sans-serif;font-size:11px;font-weight:400;color:#7a4a6a;">
+                You got this because you reached out via
+                <a href="https://soumya.io" style="color:#c72c41;text-decoration:none;">soumya.io</a>
+                &nbsp;Â·&nbsp;
+                <a href="mailto:contact@soumya.io" style="color:#c72c41;text-decoration:none;">contact@soumya.io</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Card -->
+
+      </td>
+    </tr>
+  </table>
+  </div>
+  <!-- /email-body-wrapper -->
+
+</body>
+</html>
+

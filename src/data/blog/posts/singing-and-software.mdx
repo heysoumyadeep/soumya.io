@@ -1,0 +1,142 @@
+export const frontmatter = {
+  title: "What singing taught me about writing software",
+  date: "2026-02-02",
+  readTime: "4 min",
+  excerpt: "A short essay on practice, restraint, and why your hobbies make you a better engineer.",
+  author: "Soumyadeep Pradhan",
+  tags: ["essay", "creativity", "software-craft", "hobbies"]
+}
+
+export function PreviewImage() {
+  return (
+    <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%',display:'block'}}>
+      <line x1="60" y1="60" x2="480" y2="60" stroke="var(--color-border)" strokeWidth="1.2"/>
+      <line x1="60" y1="76" x2="480" y2="76" stroke="var(--color-border)" strokeWidth="1.2"/>
+      <line x1="60" y1="92" x2="480" y2="92" stroke="var(--color-border)" strokeWidth="1.2"/>
+      <line x1="60" y1="108" x2="480" y2="108" stroke="var(--color-border)" strokeWidth="1.2"/>
+      <line x1="60" y1="124" x2="480" y2="124" stroke="var(--color-border)" strokeWidth="1.2"/>
+      <path d="M 40 130 Q 38 90 45 70 Q 52 50 48 80 Q 44 110 50 120 Q 56 130 50 140 Q 44 150 48 160" stroke="var(--color-accent)" strokeWidth="2" fill="none" opacity="0.7"/>
+      <ellipse cx="120" cy="108" rx="9" ry="6" fill="var(--color-accent)" opacity="0.8" transform="rotate(-15,120,108)"/>
+      <line x1="129" y1="108" x2="129" y2="60" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.8"/>
+      <ellipse cx="200" cy="92" rx="9" ry="6" fill="var(--color-accent)" opacity="0.8" transform="rotate(-15,200,92)"/>
+      <line x1="209" y1="92" x2="209" y2="60" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.8"/>
+      <text x="265" y="105" fontSize="28" fill="var(--color-text-dim)" fontFamily="serif" opacity="0.5">𝄽</text>
+      <ellipse cx="330" cy="76" rx="9" ry="6" fill="var(--color-accent)" opacity="0.8" transform="rotate(-15,330,76)"/>
+      <line x1="339" y1="76" x2="339" y2="60" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.8"/>
+      <ellipse cx="400" cy="108" rx="9" ry="6" fill="var(--color-accent)" opacity="0.6" transform="rotate(-15,400,108)"/>
+      <line x1="409" y1="108" x2="409" y2="60" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.6"/>
+      <text x="510" y="75" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">function</text>
+      <text x="510" y="93" fontSize="13" fill="var(--color-accent)" fontFamily="monospace" opacity="0.9">  practice(</text>
+      <text x="510" y="111" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">    attention</text>
+      <text x="510" y="129" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">  )</text>
+      <text x="510" y="147" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">{'{'}</text>
+      <text x="510" y="165" fontSize="13" fill="var(--color-accent)" fontFamily="monospace" opacity="0.9">  return skill</text>
+      <text x="510" y="183" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">{'}'}</text>
+      <line x1="490" y1="50" x2="490" y2="190" stroke="var(--color-border)" strokeWidth="1" strokeDasharray="4,4"/>
+      <text x="360" y="210" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">music and code: different notation, same discipline</text>
+    </svg>
+  );
+}
+
+<svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'0 0 2rem',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  {/* staff lines */}
+  {[60,76,92,108,124].map((y,i) => (
+    <line key={i} x1="60" y1={y} x2="480" y2={y} stroke="var(--color-border)" strokeWidth="1.2"/>
+  ))}
+  {/* treble clef sketch (simplified) */}
+  <path d="M 40 130 Q 38 90 45 70 Q 52 50 48 80 Q 44 110 50 120 Q 56 130 50 140 Q 44 150 48 160" stroke="var(--color-accent)" strokeWidth="2" fill="none" opacity="0.7"/>
+  {/* notes */}
+  <ellipse cx="120" cy="108" rx="9" ry="6" fill="var(--color-accent)" opacity="0.8" transform="rotate(-15,120,108)"/>
+  <line x1="129" y1="108" x2="129" y2="60" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.8"/>
+  <ellipse cx="200" cy="92" rx="9" ry="6" fill="var(--color-accent)" opacity="0.8" transform="rotate(-15,200,92)"/>
+  <line x1="209" y1="92" x2="209" y2="60" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.8"/>
+  {/* rest symbol */}
+  <text x="265" y="105" fontSize="28" fill="var(--color-text-dim)" fontFamily="serif" opacity="0.5">𝄽</text>
+  {/* more notes */}
+  <ellipse cx="330" cy="76" rx="9" ry="6" fill="var(--color-accent)" opacity="0.8" transform="rotate(-15,330,76)"/>
+  <line x1="339" y1="76" x2="339" y2="60" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.8"/>
+  <ellipse cx="400" cy="108" rx="9" ry="6" fill="var(--color-accent)" opacity="0.6" transform="rotate(-15,400,108)"/>
+  <line x1="409" y1="108" x2="409" y2="60" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.6"/>
+  {/* code bracket on right side */}
+  <text x="510" y="75" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">function</text>
+  <text x="510" y="93" fontSize="13" fill="var(--color-accent)" fontFamily="monospace" opacity="0.9">  practice(</text>
+  <text x="510" y="111" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">    attention</text>
+  <text x="510" y="129" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">  )</text>
+  <text x="510" y="147" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">{"{"}</text>
+  <text x="510" y="165" fontSize="13" fill="var(--color-accent)" fontFamily="monospace" opacity="0.9">  return skill</text>
+  <text x="510" y="183" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" opacity="0.9">{"}"}</text>
+  {/* divider */}
+  <line x1="490" y1="50" x2="490" y2="190" stroke="var(--color-border)" strokeWidth="1" strokeDasharray="4,4"/>
+  {/* caption */}
+  <text x="360" y="210" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">music and code: different notation, same discipline</text>
+</svg>
+
+I've been singing since I was a teenager, mostly classical Indian music, occasionally jazz. For a long time I kept it completely separate from my work as an engineer. One was art, the other was logic. They lived in different parts of my brain.
+
+That separation started to feel less convincing the longer I did both.
+
+## Practice is not the same as repetition
+
+In music, there's a difference between practicing and just playing through something. Repetition without attention doesn't build skill. It builds habit, which is a different thing. A bad habit practiced ten thousand times is just a deeply ingrained bad habit.
+
+The same is true of writing code. You can spend years writing software and not improve much if you're not paying attention to *why* things work or don't work. Deliberate practice in engineering looks like reading code you didn't write, studying systems you didn't build, and asking "what would I do differently?" after every project, not just moving on to the next ticket.
+
+<svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  {/* repetition vs deliberate practice */}
+  <text x="180" y="30" textAnchor="middle" fontSize="12" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">repetition</text>
+  <text x="540" y="30" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">deliberate practice</text>
+  {/* flat line */}
+  <line x1="60" y1="110" x2="300" y2="110" stroke="var(--color-border)" strokeWidth="2"/>
+  <circle cx="90" cy="110" r="5" fill="var(--color-border)"/>
+  <circle cx="140" cy="110" r="5" fill="var(--color-border)"/>
+  <circle cx="190" cy="110" r="5" fill="var(--color-border)"/>
+  <circle cx="240" cy="110" r="5" fill="var(--color-border)"/>
+  <circle cx="290" cy="110" r="5" fill="var(--color-border)"/>
+  <text x="180" y="135" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">same level, forever</text>
+  {/* rising line */}
+  <polyline points="420,130 470,105 520,80 570,60 620,42" stroke="var(--color-accent)" strokeWidth="2" fill="none"/>
+  <circle cx="420" cy="130" r="5" fill="var(--color-accent)" opacity="0.6"/>
+  <circle cx="470" cy="105" r="5" fill="var(--color-accent)" opacity="0.7"/>
+  <circle cx="520" cy="80" r="5" fill="var(--color-accent)" opacity="0.8"/>
+  <circle cx="570" cy="60" r="5" fill="var(--color-accent)" opacity="0.9"/>
+  <circle cx="620" cy="42" r="5" fill="var(--color-accent)"/>
+  <text x="540" y="148" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">attention compounds</text>
+  {/* divider */}
+  <line x1="360" y1="20" x2="360" y2="145" stroke="var(--color-border)" strokeWidth="1" strokeDasharray="4,4"/>
+</svg>
+
+## Restraint is a skill
+
+One of the hardest things to learn as a singer is what not to sing. Beginners fill every space. They add ornaments where silence would be more powerful, push for volume when softness would carry more weight. The instinct is to demonstrate capability. The discipline is knowing when less is more.
+
+I see the same pattern in code. Early-career engineers often write the most elaborate solution they can imagine, not because it's necessary, but because it demonstrates that they *could*. The instinct is understandable. The discipline is writing the simplest thing that works and resisting the urge to add complexity as a form of self-expression.
+
+The best code, like the best musical phrase, does exactly what it needs to and nothing more.
+
+## Listening is half the work
+
+In ensemble singing, you spend as much time listening as you do producing sound. You're constantly adjusting, to the other voices, to the room, to the tempo. A singer who can't listen can't harmonize.
+
+In software, the equivalent is reading. Reading other people's code, reading documentation, reading the error message carefully instead of pattern-matching to the first familiar-looking solution. The engineers I've learned the most from are voracious readers of code. They treat a well-designed API or a clean abstraction the way a musician treats a well-crafted melody, as something worth studying.
+
+<svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  {/* ensemble: 3 voices */}
+  <text x="360" y="28" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">ensemble = listening + adjusting</text>
+  {/* voice 1 */}
+  <text x="60" y="58" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">voice 1</text>
+  <polyline points="60,75 120,65 180,80 240,68 300,75 360,62 420,72 480,65 540,75 600,68 660,75" stroke="var(--color-accent)" strokeWidth="1.8" fill="none" opacity="0.9"/>
+  {/* voice 2 */}
+  <text x="60" y="108" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">voice 2</text>
+  <polyline points="60,120 120,115 180,125 240,112 300,122 360,110 420,118 480,112 540,122 600,115 660,120" stroke="var(--color-accent)" strokeWidth="1.8" fill="none" opacity="0.6"/>
+  {/* voice 3 */}
+  <text x="60" y="148" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">voice 3</text>
+  <polyline points="60,155 120,148 180,158 240,145 300,155 360,143 420,152 480,146 540,155 600,148 660,155" stroke="var(--color-accent)" strokeWidth="1.8" fill="none" opacity="0.35"/>
+</svg>
+
+## Iteration without ego
+
+In a practice session, you might sing the same phrase twenty times, each time trying something slightly different. You don't get attached to any particular version. The goal is to find what works, and that requires being willing to discard what doesn't.
+
+This is the hardest thing to carry into software work, because code feels more permanent than sound. But the engineers who ship the best work are the ones who can throw away a week of effort when they realize the approach was wrong, without drama, without defensiveness, just a clean pivot.
+
+That's my take on what singing taught me about software. Hobbies give you a different vocabulary for thinking about craft, and sometimes the clearest way to see a problem is from somewhere completely outside it. Thanks and peace.

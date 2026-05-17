@@ -1,0 +1,114 @@
+﻿.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  min-height: 280px;
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  color: inherit;
+  transition: transform var(--duration-hover) var(--ease),
+              box-shadow var(--duration-hover) var(--ease),
+              background-color var(--duration-theme) var(--ease),
+              border-color var(--duration-theme) var(--ease);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: var(--border-width-accent);
+    background: var(--gradient-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: transparent;
+    box-shadow: 0 18px 40px -16px var(--color-shadow);
+
+    &::before { transform: scaleX(1); }
+  }
+
+  /* Keyboard focus â€” div with role=link still needs a visible ring */
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+.project-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.project-card__icon {
+  width: var(--icon-size-lg);
+  height: var(--icon-size-lg);
+  border-radius: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.project-card__links {
+  display: flex;
+  gap: var(--space-3);
+  color: var(--color-text-muted);
+
+  a:hover { color: var(--color-accent); }
+}
+
+.project-card__title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  line-height: 1.25;
+}
+
+.project-card__description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  flex: 1;
+}
+
+.project-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+
+  li {
+    font-size: 11px;
+    padding: var(--space-1) 10px;
+    background: var(--color-surface-alt);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+  }
+}
+
+.project-card__recent-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+  border: var(--border-width) solid var(--color-border-strong);
+  align-self: center;
+}

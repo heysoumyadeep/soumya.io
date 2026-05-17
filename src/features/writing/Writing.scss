@@ -1,0 +1,37 @@
+.writing { position: relative; z-index: 2; }
+
+.writing__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+
+  .section-header { margin-bottom: var(--space-4); }
+}
+
+.writing__all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--btn-font-size);
+  font-weight: 500;
+  margin-bottom: var(--space-4);
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: gap var(--duration-hover) var(--ease);
+
+  svg { color: var(--color-accent); -webkit-text-fill-color: initial; }
+  &:hover { gap: var(--space-3); }
+}
+
+.writing__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+
+  li { display: flex; }
+}

@@ -1,0 +1,48 @@
+.section-header {
+  margin-bottom: var(--space-7);
+
+  &--center {
+    text-align: center;
+
+    .section-header__eyebrow { justify-content: center; }
+  }
+}
+
+.section-header__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.section-header__num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-header__line {
+  width: 36px;
+  height: var(--border-width);
+  background: var(--color-border-strong);
+}
+
+.section-header__label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.section-header__title {
+  font-size: clamp(32px, 4.5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  color: var(--color-text);
+}

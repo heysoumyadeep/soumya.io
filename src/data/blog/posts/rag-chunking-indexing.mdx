@@ -1,0 +1,344 @@
+export const frontmatter = {
+  title: "Vector indexing in RAG: why embeddings need a different kind of index",
+  date: "2026-05-06",
+  readTime: "5 min",
+  excerpt: "You can't B-Tree your way through meaning. Here's why vector search needs graph-based indexes and how they make RAG systems fast.",
+  author: "Soumyadeep Pradhan",
+  tags: ["llm", "rag", "embeddings", "vector-search", "deep-dive"]
+}
+
+export function PreviewImage() {
+  return (
+    <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%',display:'block'}}>
+      <defs>
+        <marker id="pi-arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L0,8 L10,4 z" fill="var(--color-accent)"/>
+        </marker>
+      </defs>
+      <text x="360" y="30" textAnchor="middle" fontSize="14" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">RAG: Finding Meaning in Millions</text>
+      <rect x="60" y="60" width="280" height="70" rx="8" fill="var(--color-accent)" opacity="0.1" stroke="var(--color-accent)" strokeWidth="1.5"/>
+      <text x="200" y="85" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">User Question</text>
+      <text x="200" y="105" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">"How do I cancel</text>
+      <text x="200" y="120" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">my subscription?"</text>
+      <line x1="340" y1="95" x2="380" y2="95" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#pi-arrow)"/>
+      <text x="360" y="85" textAnchor="middle" fontSize="9" fill="var(--color-accent)" fontFamily="monospace">search</text>
+      <rect x="380" y="60" width="280" height="70" rx="8" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.5"/>
+      <text x="520" y="85" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">1 Million Chunks</text>
+      <text x="520" y="105" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">Find the 5 most</text>
+      <text x="520" y="120" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">relevant in milliseconds</text>
+      <rect x="180" y="160" width="360" height="50" rx="8" fill="var(--color-accent)" opacity="0.25" stroke="var(--color-accent)" strokeWidth="2"/>
+      <text x="360" y="182" textAnchor="middle" fontSize="13" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Vector Indexing (HNSW)</text>
+      <text x="360" y="200" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">makes this possible</text>
+    </svg>
+  );
+}
+
+import CalloutBox from '@/features/blog/CalloutBox.jsx';
+
+If you've worked with databases, you know that indexes make queries fast. A `WHERE email = ?` query on 10 million rows takes milliseconds instead of minutes because of a B-Tree index.
+
+<CalloutBox
+  badge="PREREQUISITE READING"
+  title="Ever wondered how indexing works in databases?"
+  linkText="New to indexing? Start here"
+  slug="database-indexing-explained"
+/>
+
+
+RAG systems have a similar problem, but with a twist: **find the chunks closest in meaning to this query**. Not exact matches. Not alphabetical sorting. *Meaning*.
+
+You can't B-Tree your way through that. "Meaning" doesn't sort alphabetically. So vector databases use a completely different family of indexes built specifically for high-dimensional similarity search. Same goal as a B-Tree (skip 99% of the data), different shape entirely.
+
+Let me show you why vector indexing is critical to making RAG work.
+
+<svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'2rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <defs>
+    <marker id="intraarrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L10,4 z" fill="var(--color-accent)"/>
+    </marker>
+  </defs>
+  <text x="360" y="30" textAnchor="middle" fontSize="14" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">The RAG Challenge</text>
+  <rect x="60" y="60" width="280" height="70" rx="8" fill="var(--color-accent)" opacity="0.1" stroke="var(--color-accent)" strokeWidth="1.5"/>
+  <text x="200" y="85" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">User Question</text>
+  <text x="200" y="105" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">"How do I cancel</text>
+  <text x="200" y="120" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">my subscription?"</text>
+  <line x1="340" y1="95" x2="380" y2="95" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#intraarrow)"/>
+  <text x="360" y="85" textAnchor="middle" fontSize="9" fill="var(--color-accent)" fontFamily="monospace">search</text>
+  <rect x="380" y="60" width="280" height="70" rx="8" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.5"/>
+  <text x="520" y="85" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">1 Million Chunks</text>
+  <text x="520" y="105" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">Find the 5 most</text>
+  <text x="520" y="120" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">relevant in milliseconds</text>
+  <rect x="180" y="160" width="360" height="50" rx="8" fill="var(--color-accent)" opacity="0.25" stroke="var(--color-accent)" strokeWidth="2"/>
+  <text x="360" y="182" textAnchor="middle" fontSize="13" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Vector Indexing</text>
+  <text x="360" y="200" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">makes this possible</text>
+</svg>
+
+## The problem: searching through meaning
+
+RAG (Retrieval-Augmented Generation) systems work by breaking documents into smaller pieces called **chunks**, turning those chunks into numerical representations called **embeddings**, and then finding the most relevant chunks when a user asks a question.
+
+Here's the challenge: you might have millions of chunks. When a user asks "how do I cancel my subscription?", you need to find the 3-5 most relevant chunks out of those millions in milliseconds.
+
+If you compared the user's question to every single chunk one by one, it would take 2+ seconds per search. Unusable.
+
+This is where **vector indexing** comes in.
+
+## Quick context: chunking and embeddings
+
+**Chunking:** Split documents into 500-800 token pieces so they fit in the LLM's context window. Use 10-15% overlap to prevent losing context at boundaries.
+
+<svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">chunking: breaking documents into pieces</text>
+  <rect x="60" y="50" width="600" height="35" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.5"/>
+  <text x="360" y="72" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">Large Document (10,000 tokens)</text>
+  <text x="360" y="110" textAnchor="middle" fontSize="12" fill="var(--color-text-dim)" fontFamily="monospace">↓ split ↓</text>
+  <rect x="60" y="130" width="120" height="30" rx="4" fill="var(--color-accent)" opacity="0.2" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="120" y="150" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">chunk 1</text>
+  <rect x="200" y="130" width="120" height="30" rx="4" fill="var(--color-accent)" opacity="0.2" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="260" y="150" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">chunk 2</text>
+  <rect x="340" y="130" width="120" height="30" rx="4" fill="var(--color-accent)" opacity="0.2" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="400" y="150" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">chunk 3</text>
+  <rect x="480" y="130" width="120" height="30" rx="4" fill="var(--color-accent)" opacity="0.2" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="540" y="150" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">chunk 4</text>
+  <rect x="620" y="130" width="40" height="30" rx="4" fill="var(--color-accent)" opacity="0.1" stroke="var(--color-accent)" strokeWidth="1" strokeDasharray="3,3"/>
+  <text x="640" y="150" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">...</text>
+</svg>
+
+**Embeddings:** Turn text into vectors (lists of 1536 numbers) that represent meaning. Similar texts get similar vectors. Think of it like a map where "dog" and "puppy" are close together, but "dog" and "skyscraper" are far apart.
+
+<svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">embeddings: text becomes coordinates in meaning-space</text>
+  <line x1="60" y1="190" x2="660" y2="190" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="60" y1="60" x2="60" y2="190" stroke="var(--color-border)" strokeWidth="1"/>
+  <circle cx="150" cy="140" r="7" fill="var(--color-accent)" opacity="0.8"/>
+  <text x="165" y="145" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">dog</text>
+  <circle cx="180" cy="155" r="7" fill="var(--color-accent)" opacity="0.8"/>
+  <text x="195" y="160" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">puppy</text>
+  <circle cx="210" cy="130" r="7" fill="var(--color-accent)" opacity="0.8"/>
+  <text x="225" y="135" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">cat</text>
+  <ellipse cx="180" cy="140" rx="70" ry="35" fill="var(--color-accent)" opacity="0.1" stroke="var(--color-accent)" strokeDasharray="4,4" strokeWidth="1.5"/>
+  <text x="180" y="105" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">similar meaning</text>
+  <circle cx="520" cy="90" r="7" fill="var(--color-text-muted)" opacity="0.6"/>
+  <text x="535" y="95" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">skyscraper</text>
+  <line x1="210" y1="135" x2="520" y2="95" stroke="var(--color-border)" strokeWidth="1" strokeDasharray="3,3" opacity="0.4"/>
+  <text x="360" y="115" textAnchor="middle" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">far apart = different meaning</text>
+</svg>
+
+To compare embeddings, we use **cosine similarity** (measures the angle between vectors). Small angle = similar meaning.
+
+Now here's the key question: how do you find the most similar vectors quickly when you have millions of them?
+
+## Why traditional indexes don't work for vectors
+
+B-Trees work by sorting data. You can find `email = 'a@b.com'` quickly because emails are sorted alphabetically.
+
+<svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">B-Tree: works great for sortable data</text>
+  <rect x="60" y="50" width="100" height="30" rx="4" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="110" y="70" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">alice@...</text>
+  <rect x="180" y="50" width="100" height="30" rx="4" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="230" y="70" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">bob@...</text>
+  <rect x="300" y="50" width="100" height="30" rx="4" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="350" y="70" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">charlie@...</text>
+  <rect x="420" y="50" width="100" height="30" rx="4" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="470" y="70" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">dave@...</text>
+  <rect x="540" y="50" width="100" height="30" rx="4" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="590" y="70" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">eve@...</text>
+  <text x="360" y="105" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">✓ alphabetically sorted</text>
+  <text x="360" y="135" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">but "dog" isn't "before" or "after" "cat" in meaning...</text>
+</svg>
+
+But vectors representing meaning can't be sorted. There's no "alphabetical order" for concepts. "Dog" isn't "before" or "after" "cat". They're just *near each other* in meaning-space.
+
+This is why vector search needs a completely different approach.
+
+## Vector indexes: HNSW
+
+The most popular solution is **HNSW** (Hierarchical Navigable Small World). It's a graph-based index designed for high-dimensional similarity search.
+
+The core idea: build a graph where each vector is a node connected to its closest neighbors. Add multiple layers. The top layer is a sparse "highway" with long-distance shortcuts. The bottom layer connects everything densely.
+
+When you search, you start at the top layer, hop to the nearest neighbor, drop down a layer, hop again, and repeat. Each hop gets you closer. You never check most of the vectors, just the ones along the path.
+
+<svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <defs><marker id="hnswarrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 z" fill="var(--color-accent)"/></marker></defs>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">HNSW: skip layers from sparse to dense</text>
+  <text x="50" y="65" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Layer 2</text>
+  <text x="50" y="80" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">few nodes</text>
+  <circle cx="180" cy="70" r="6" fill="var(--color-accent)" opacity="0.7"/>
+  <circle cx="380" cy="70" r="6" fill="var(--color-accent)" opacity="0.7"/>
+  <circle cx="580" cy="70" r="6" fill="var(--color-accent)" opacity="0.7"/>
+  <line x1="180" y1="70" x2="380" y2="70" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.5"/>
+  <line x1="380" y1="70" x2="580" y2="70" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.5"/>
+  <text x="50" y="155" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Layer 1</text>
+  <text x="50" y="170" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">more nodes</text>
+  <circle cx="150" cy="160" r="5" fill="var(--color-accent)" opacity="0.6"/>
+  <circle cx="220" cy="170" r="5" fill="var(--color-accent)" opacity="0.6"/>
+  <circle cx="320" cy="155" r="5" fill="var(--color-accent)" opacity="0.6"/>
+  <circle cx="400" cy="170" r="5" fill="var(--color-accent)" opacity="0.6"/>
+  <circle cx="490" cy="160" r="5" fill="var(--color-accent)" opacity="0.6"/>
+  <circle cx="580" cy="165" r="5" fill="var(--color-accent)" opacity="0.6"/>
+  <line x1="150" y1="160" x2="220" y2="170" stroke="var(--color-accent)" strokeWidth="1" opacity="0.4"/>
+  <line x1="220" y1="170" x2="320" y2="155" stroke="var(--color-accent)" strokeWidth="1" opacity="0.4"/>
+  <line x1="320" y1="155" x2="400" y2="170" stroke="var(--color-accent)" strokeWidth="1" opacity="0.4"/>
+  <line x1="400" y1="170" x2="490" y2="160" stroke="var(--color-accent)" strokeWidth="1" opacity="0.4"/>
+  <line x1="490" y1="160" x2="580" y2="165" stroke="var(--color-accent)" strokeWidth="1" opacity="0.4"/>
+  <text x="50" y="265" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Layer 0</text>
+  <text x="50" y="280" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">all vectors</text>
+  <circle cx="120" cy="260" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="160" cy="275" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="200" cy="255" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="240" cy="270" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="280" cy="260" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="320" cy="275" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="360" cy="265" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="400" cy="270" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="440" cy="255" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="480" cy="270" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="520" cy="265" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="560" cy="275" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="600" cy="260" r="4" fill="var(--color-accent)" opacity="0.5"/>
+  <line x1="120" y1="260" x2="160" y2="275" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="160" y1="275" x2="200" y2="255" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="200" y1="255" x2="240" y2="270" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="240" y1="270" x2="280" y2="260" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="280" y1="260" x2="320" y2="275" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="320" y1="275" x2="360" y2="265" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="360" y1="265" x2="400" y2="270" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="400" y1="270" x2="440" y2="255" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="440" y1="255" x2="480" y2="270" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="480" y1="270" x2="520" y2="265" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="520" y1="265" x2="560" y2="275" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="200" y1="255" x2="280" y2="260" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="320" y1="275" x2="400" y2="270" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.3"/>
+  <line x1="180" y1="76" x2="180" y2="155" stroke="var(--color-text-dim)" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" markerEnd="url(#hnswarrow)"/>
+  <line x1="220" y1="176" x2="240" y2="265" stroke="var(--color-text-dim)" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" markerEnd="url(#hnswarrow)"/>
+  <text x="660" y="75" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">start</text>
+  <text x="660" y="165" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">refine</text>
+  <text x="660" y="265" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">land</text>
+  <text x="360" y="320" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace" fontStyle="italic">log(N) hops to find the closest vector instead of N comparisons</text>
+</svg>
+
+Think of it like a highway system. Start on the interstate (top layer), take big jumps between cities. Exit to a state highway (middle layer), get closer. Finally, local roads (bottom layer) to the exact address.
+
+With 1 million vectors, HNSW checks only ~200 of them to find the best match. That's a 5000x reduction. This is why vector search is fast enough for real-time use.
+
+## Building a vector index
+
+In Postgres with pgvector:
+
+```sql
+CREATE TABLE chunks (
+    id BIGSERIAL PRIMARY KEY,
+    content TEXT,
+    embedding VECTOR(1536)
+);
+
+CREATE INDEX ON chunks USING hnsw (embedding vector_cosine_ops);
+```
+
+That `CREATE INDEX` line does the same job as indexing in traditional databases, just with a graph structure instead of a tree. Without it, every query scans every row. With it, searches take milliseconds.
+
+## The full RAG pipeline
+
+<svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <defs><marker id="ragarrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L0,8 L10,4 z" fill="var(--color-accent)"/></marker></defs>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">RAG: from question to answer</text>
+  <text x="60" y="55" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">offline (one time)</text>
+  <rect x="60" y="65" width="600" height="100" rx="8" fill="var(--color-surface)" stroke="var(--color-border)" strokeDasharray="3,3" strokeWidth="1.2"/>
+  <rect x="80" y="85" width="100" height="50" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="130" y="105" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">documents</text>
+  <text x="130" y="122" textAnchor="middle" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">PDFs, docs, web</text>
+  <line x1="180" y1="110" x2="220" y2="110" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#ragarrow)"/>
+  <rect x="220" y="85" width="100" height="50" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="270" y="105" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">chunk</text>
+  <text x="270" y="122" textAnchor="middle" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">split into pieces</text>
+  <line x1="320" y1="110" x2="360" y2="110" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#ragarrow)"/>
+  <rect x="360" y="85" width="100" height="50" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="410" y="105" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">embed</text>
+  <text x="410" y="122" textAnchor="middle" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">text → vector</text>
+  <line x1="460" y1="110" x2="500" y2="110" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#ragarrow)"/>
+  <rect x="500" y="85" width="140" height="50" rx="6" fill="var(--color-accent)" opacity="0.25" stroke="var(--color-accent)" strokeWidth="1.5"/>
+  <text x="570" y="105" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">vector DB + index</text>
+  <text x="570" y="122" textAnchor="middle" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">HNSW graph built</text>
+  <text x="60" y="190" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">runtime (every query)</text>
+  <rect x="60" y="200" width="600" height="140" rx="8" fill="var(--color-surface)" stroke="var(--color-border)" strokeDasharray="3,3" strokeWidth="1.2"/>
+  <rect x="80" y="220" width="100" height="40" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="130" y="244" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">user query</text>
+  <line x1="180" y1="240" x2="220" y2="240" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#ragarrow)"/>
+  <rect x="220" y="220" width="100" height="40" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="270" y="244" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">embed query</text>
+  <line x1="320" y1="240" x2="360" y2="240" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#ragarrow)"/>
+  <rect x="360" y="220" width="120" height="40" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="420" y="240" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">find top-k</text>
+  <text x="420" y="253" textAnchor="middle" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">via HNSW</text>
+  <line x1="480" y1="240" x2="520" y2="240" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#ragarrow)"/>
+  <rect x="520" y="220" width="120" height="40" rx="6" fill="var(--color-accent)" opacity="0.25" stroke="var(--color-accent)" strokeWidth="1.5"/>
+  <text x="580" y="244" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">retrieved chunks</text>
+  <line x1="580" y1="260" x2="580" y2="285" stroke="var(--color-border)" strokeWidth="1.5" markerEnd="url(#ragarrow)"/>
+  <rect x="220" y="285" width="360" height="40" rx="6" fill="var(--color-accent)" opacity="0.2" stroke="var(--color-accent)" strokeWidth="1.5"/>
+  <text x="400" y="305" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">LLM (chunks + question → answer)</text>
+  <line x1="220" y1="305" x2="190" y2="305" stroke="var(--color-border)" strokeWidth="1.5" markerEnd="url(#ragarrow)"/>
+  <text x="155" y="309" textAnchor="middle" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">answer</text>
+</svg>
+
+At runtime, the query gets embedded, HNSW finds the top chunks, and the LLM generates an answer using those chunks as context.
+
+## Why vector indexing matters
+
+<svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <defs><marker id="speedarrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L0,8 L10,4 z" fill="var(--color-accent)"/></marker></defs>
+  <text x="360" y="30" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">vector search: brute force vs indexed</text>
+  <text x="180" y="65" textAnchor="middle" fontSize="12" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">no index</text>
+  <rect x="60" y="80" width="240" height="60" rx="6" fill="var(--color-border)" opacity="0.4" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="180" y="105" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">compare to all 1M vectors</text>
+  <text x="180" y="125" textAnchor="middle" fontSize="14" fill="var(--color-text-dim)" fontFamily="monospace" fontWeight="600">2 seconds</text>
+  <text x="540" y="65" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">with HNSW index</text>
+  <rect x="420" y="80" width="240" height="60" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="540" y="105" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">~200 comparisons</text>
+  <text x="540" y="125" textAnchor="middle" fontSize="14" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">5 milliseconds</text>
+  <line x1="300" y1="110" x2="420" y2="110" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#speedarrow)"/>
+  <text x="360" y="100" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">400x faster</text>
+  <text x="360" y="175" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">Vector indexing makes RAG viable in production</text>
+</svg>
+
+**Without indexing:** 1 million chunks = 1 million comparisons per query. Result: 2+ seconds per search.
+
+**With HNSW indexing:** 1 million chunks = ~200 comparisons per query. Result: 5-10 milliseconds per search.
+
+Vector indexing is what makes RAG viable in production. Same fundamental problem as database indexing (skip the data you don't need), different data structure (graphs instead of trees).
+
+## Important gotchas
+
+**Approximate vs exact search:** HNSW returns *approximate* nearest neighbors. You might miss the true best match 5% of the time. For RAG, this is usually fine. The speed gain is worth it.
+
+**Index build time:** Building an HNSW index on 1 million vectors takes 10-30 minutes. On 10 million, it could take hours. Run it as a background job.
+
+**Can't change embedding models:** A vector from `text-embedding-3-small` can't be compared to one from `bge-base`. Different model = different coordinate system. Switching means re-embedding everything and rebuilding the index. Pick your model carefully.
+
+**Chunk size matters:** Too small (200 tokens) loses context. Too big (2000 tokens) dilutes the embedding. Start at 500-800 tokens.
+
+<svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">chunk size: finding the sweet spot</text>
+  <rect x="60" y="60" width="150" height="80" rx="6" fill="var(--color-border)" opacity="0.3" stroke="var(--color-border)" strokeWidth="1.5"/>
+  <text x="135" y="85" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace" fontWeight="600">Too Small</text>
+  <text x="135" y="105" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">200 tokens</text>
+  <text x="135" y="125" textAnchor="middle" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">loses context</text>
+  <rect x="285" y="60" width="150" height="80" rx="6" fill="var(--color-accent)" opacity="0.2" stroke="var(--color-accent)" strokeWidth="2"/>
+  <text x="360" y="85" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Sweet Spot</text>
+  <text x="360" y="105" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">500-800 tokens</text>
+  <text x="360" y="125" textAnchor="middle" fontSize="9" fill="var(--color-accent)" fontFamily="monospace">✓ balanced</text>
+  <rect x="510" y="60" width="150" height="80" rx="6" fill="var(--color-border)" opacity="0.3" stroke="var(--color-border)" strokeWidth="1.5"/>
+  <text x="585" y="85" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace" fontWeight="600">Too Large</text>
+  <text x="585" y="105" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">2000 tokens</text>
+  <text x="585" y="125" textAnchor="middle" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">diluted meaning</text>
+  <text x="360" y="170" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">start with 500-800 and adjust based on your data</text>
+</svg>
+
+## The big picture
+
+A RAG system is a search engine with an LLM on top. Vector indexing solves the search part.
+
+Just like B-Trees made databases practical by making queries fast, HNSW makes RAG practical by making similarity search fast. Same core idea (skip what you don't need), different data structure (graphs instead of trees), different problem (meaning instead of sorting).
+
+Vector indexing is the unsung hero. Without it, RAG would be too slow to use. With it, you can search millions of chunks in milliseconds.

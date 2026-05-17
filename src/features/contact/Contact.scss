@@ -1,0 +1,32 @@
+.contact { position: relative; z-index: 2; }
+
+.contact__lede {
+  text-align: center;
+  font-size: 17px;
+  color: var(--color-text-muted);
+  max-width: 560px;
+  margin: 0 auto var(--space-7);
+  line-height: 1.6;
+}
+
+.contact__wrap {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.contact__direct {
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-top: var(--space-5);
+}
+
+.contact__email {
+  font-weight: 600;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  &:hover { text-decoration: underline; }
+}

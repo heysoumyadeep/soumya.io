@@ -1,0 +1,26 @@
+/* Navigation progress bar */
+
+.nav-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: var(--border-width-accent);
+  z-index: calc(var(--z-nav) + 10);
+  background: var(--gradient-accent);
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  box-shadow: 0 0 var(--space-2) var(--color-accent),
+              0 0 var(--space-1) var(--color-accent);
+  pointer-events: none;
+  will-change: width, opacity;
+
+  &--start   { width: 0; opacity: 1; transition: none; }
+  &--filling { width: 85%; opacity: 1; transition: width 550ms cubic-bezier(0.1, 0.6, 0.4, 1); }
+  &--complete {
+    width: 100%;
+    opacity: 0;
+    transition: width 150ms ease-out, opacity 250ms ease-in 150ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-progress { transition: none !important; }
+}

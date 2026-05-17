@@ -1,0 +1,113 @@
+.footer {
+  border-top: var(--border-width) solid var(--color-border);
+  padding: var(--space-6) 0 var(--space-5);
+  background: var(--color-surface);
+  position: relative;
+  z-index: 2;
+}
+
+.footer__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Layout */
+
+.footer__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-5);
+}
+
+.footer__left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.footer__credit {
+  font-size: var(--btn-font-size);
+  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.footer__credit-name {
+  font-weight: 600;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer__pulse {
+  display: inline-block;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 15px;
+  animation: pulse-heart 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-heart {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.25); }
+}
+
+.footer__meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-dim);
+  letter-spacing: 0.04em;
+}
+
+/* Social links */
+
+.footer__social {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-height-md);
+  height: var(--control-height-md);
+  border-radius: 50%;
+  background: var(--color-surface-alt);
+  border: var(--border-width) solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: transform var(--duration-hover) ease,
+              background-color var(--duration-hover) ease,
+              color var(--duration-hover) ease,
+              border-color var(--duration-hover) ease,
+              box-shadow var(--duration-hover) ease;
+
+  &:hover {
+    background: var(--gradient-accent);
+    border-color: transparent;
+    color: var(--color-white);
+    transform: translateY(-3px);
+    box-shadow: 0 var(--space-2) 18px -6px var(--color-shadow);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .footer__content {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-4);
+  }
+
+  .footer__left { align-items: center; }
+  .footer__credit { justify-content: center; }
+}

@@ -1,0 +1,50 @@
+# robots.txt - https://soumya.io
+# All crawlers (search engines + AI bots) are welcome.
+
+# ── General crawlers ──────────────────────────────────────────────────────────
+User-agent: *
+Allow: /
+Disallow: /dist/
+Disallow: /node_modules/
+Crawl-delay: 1
+
+# ── Google ────────────────────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+
+# ── Bing ──────────────────────────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# ── AI / LLM crawlers ─────────────────────────────────────────────────────────
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# ── Sitemaps ──────────────────────────────────────────────────────────────────
+Sitemap: https://soumya.io/sitemap.xml

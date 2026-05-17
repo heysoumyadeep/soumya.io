@@ -1,0 +1,184 @@
+/* Design tokens, light mode defaults */
+:root {
+  /* Palette */
+  --palette-coral:   #ee4540;
+  --palette-crimson: #c72c41;
+  --palette-burgundy:#801336;
+  --palette-plum:    #510a32;
+  --palette-deep:    #2d142c;
+
+  /* Raw RGB channels so you can compose any alpha at the call site:
+       rgb(var(--palette-coral-rgb) / 0.4) */
+  --palette-coral-rgb:   238 69 64;
+  --palette-crimson-rgb: 199 44 65;
+  --palette-burgundy-rgb: 128 19 54;
+  --palette-plum-rgb:    81 10 50;
+  --palette-deep-rgb:    45 20 44;
+
+  /* Neutral channels */
+  --rgb-white: 255 255 255;
+  --rgb-black: 0 0 0;
+  --rgb-bg-light: 253 246 240;
+
+  /* Semantic colors */
+  --color-bg:           #fdf6f0;
+  --color-bg-rgb:       253 246 240;
+  --color-surface:      #ffffff;
+  --color-surface-alt:  #f8ecec;
+  --color-text:         #2d142c;
+  --color-accent:       #c72c41;
+  --color-accent-hover: #ee4540;
+  --color-text-muted:   rgb(var(--palette-deep-rgb) / 0.72);
+  --color-text-dim:     rgb(var(--palette-deep-rgb) / 0.5);
+  --color-border:       rgb(var(--palette-burgundy-rgb) / 0.14);
+  --color-border-strong:rgb(var(--palette-burgundy-rgb) / 0.3);
+  --color-accent-soft:  rgb(var(--palette-crimson-rgb) / 0.1);
+  --color-shadow:       rgb(var(--palette-burgundy-rgb) / 0.18);
+  --color-nav-bg:       rgb(var(--rgb-bg-light) / 0.92);
+  --color-error:        #e24b4a;
+  --color-error-rgb:    226 75 74;
+  --color-error-soft:   rgb(var(--color-error-rgb) / 0.04);
+  --color-white:        #ffffff;
+  --color-black-overlay: rgb(var(--rgb-black) / 0.6);
+
+  /* Reusable alpha-flavored accent tokens (keeps glow/shadow rules readable) */
+  --color-accent-glow-strong: rgb(var(--palette-coral-rgb) / 0.5);
+  --color-accent-glow-medium: rgb(var(--palette-coral-rgb) / 0.4);
+  --color-accent-glow-soft:   rgb(var(--palette-coral-rgb) / 0.2);
+  --color-accent-glow-faint:  rgb(var(--palette-coral-rgb) / 0.1);
+  --color-accent-glow-bright: rgb(var(--palette-coral-rgb) / 0.8);
+  --color-accent-tint-light:  rgb(var(--palette-coral-rgb) / 0.14);
+  --color-accent-tint-strong: rgb(var(--palette-coral-rgb) / 0.35);
+
+  --color-shadow-soft:    rgb(var(--rgb-black) / 0.08);
+  --color-shadow-medium:  rgb(var(--rgb-black) / 0.15);
+  --color-shadow-strong:  rgb(var(--rgb-black) / 0.3);
+
+  --color-glass-light:    rgb(var(--rgb-white) / 0.6);
+  --color-glass-medium:   rgb(var(--rgb-white) / 0.45);
+  --color-glass-faint:    rgb(var(--rgb-white) / 0.2);
+  --color-glass-edge:     rgb(var(--rgb-white) / 0.7);
+  --color-overlay-dark-soft: rgb(var(--rgb-black) / 0.25);
+
+  /* Gradients */
+  --gradient-accent:        linear-gradient(135deg, var(--palette-coral) 0%, var(--palette-crimson) 100%);
+  --gradient-accent-strong: linear-gradient(135deg, var(--palette-coral) 0%, var(--palette-crimson) 50%, var(--palette-burgundy) 100%);
+  --gradient-text:          linear-gradient(135deg, var(--palette-coral) 0%, var(--palette-crimson) 50%, var(--palette-burgundy) 100%);
+  --gradient-orb-1:         radial-gradient(circle, rgba(238, 69, 64, 0.25) 0%, transparent 70%);
+  --gradient-orb-2:         radial-gradient(circle, rgba(199, 44, 65, 0.2) 0%, transparent 70%);
+
+  /* Button gradients */
+  --gradient-btn:       var(--palette-coral);
+  --gradient-btn-hover: var(--palette-coral);
+  --color-btn-shadow:   rgba(238, 69, 64, 0.45);
+  --color-btn-glow:     rgba(238, 69, 64, 0.15);
+
+  /* Typography */
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+
+  /* Spacing */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 128px;
+
+  /* Layout */
+  --max-width:   1200px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+
+  /* Borders */
+  --border-width:        1px;
+  --border-width-thick:  2px;
+  --border-width-accent: 3px;
+
+  /* Icons */
+  --icon-size-sm: 18px;
+  --icon-size-md: 22px;
+  --icon-size-lg: 44px;
+
+  /* Button sizing */
+  --btn-padding-y:      11px;
+  --btn-padding-x:      22px;
+  --btn-padding-x-wide: 28px;
+  --btn-font-size:      14px;
+  --btn-gap:            var(--space-2);
+
+  /* Control sizing (inputs, pills) */
+  --control-height-sm: 22px;
+  --control-height-md: 38px;
+  --control-height-lg: 40px;
+  --control-height-xl: 56px;
+
+  /* Snackbar */
+  --snackbar-bottom:     28px;
+  --snackbar-max-width:  340px;
+
+  /* Letter spacing */
+  --tracking-wide:   0.04em;
+  --tracking-wider:  0.06em;
+  --tracking-widest: 0.1em;
+  --tracking-tight:  -0.02em;
+  --tracking-tighter:-0.04em;
+
+  /* Animation */
+  --duration-theme:  300ms;
+  --duration-hover:  200ms;
+  --duration-reveal: 800ms;
+  --duration-slow:   400ms;
+  --duration-fast:   150ms;
+  --ease:            cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Rotation angles */
+  --rotate-subtle:   0.5deg;
+  --rotate-light:    1deg;
+  --rotate-medium:   1.5deg;
+  --rotate-strong:   2.5deg;
+  --rotate-reverse:  -0.5deg;
+
+  /* Z-index */
+  --z-nav:     100;
+  --z-overlay: 90;
+  --z-modal:   300;
+  --z-snackbar:999999;
+}
+
+/* Dark mode overrides. Applied when data-theme="dark" is set on <html>. */
+[data-theme='dark'] {
+  --color-bg:           #1c031b;
+  --color-bg-rgb:       28 3 27;
+  --color-surface:      #3a1a3a;
+  --color-surface-alt:  #510a32;
+  --color-text:         #fdf6f0;
+  --color-accent:       #ee4540;
+  --color-accent-hover: #ff5a55;
+  --color-text-muted:   rgb(var(--rgb-bg-light) / 0.72);
+  --color-text-dim:     rgb(var(--rgb-bg-light) / 0.45);
+  --color-border:       rgb(var(--palette-coral-rgb) / 0.14);
+  --color-border-strong:rgb(var(--palette-coral-rgb) / 0.3);
+  --color-accent-soft:  rgb(var(--palette-coral-rgb) / 0.16);
+  --color-shadow:       rgb(var(--palette-coral-rgb) / 0.3);
+  --color-nav-bg:       rgb(var(--color-bg-rgb) / 0.92);
+  --color-error:        #f06060;
+  --color-error-rgb:    240 96 96;
+  --color-error-soft:   rgb(var(--color-error-rgb) / 0.06);
+
+  --color-shadow-soft:    rgb(var(--rgb-black) / 0.3);
+  --color-shadow-medium:  rgb(var(--rgb-black) / 0.4);
+  --color-shadow-strong:  rgb(var(--rgb-black) / 0.55);
+
+  --gradient-orb-1: radial-gradient(circle, rgb(var(--palette-coral-rgb) / 0.22) 0%, transparent 70%);
+  --gradient-orb-2: radial-gradient(circle, rgb(var(--palette-crimson-rgb) / 0.18) 0%, transparent 70%);
+}

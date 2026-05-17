@@ -1,0 +1,173 @@
+export const frontmatter = {
+  title: "How I think about my role as a mid-level engineer",
+  date: "2026-03-15",
+  readTime: "6 min",
+  excerpt: "Not a checklist for getting promoted. A look at how the job actually works once you're here.",
+  author: "Soumyadeep Pradhan",
+  tags: ["career", "engineering", "growth", "sde2"],
+  isPremium: true,
+}
+
+export function PreviewImage() {
+  return (
+    <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%',display:'block'}}>
+      <defs>
+        <marker id="pi-arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="var(--color-accent)"/>
+        </marker>
+      </defs>
+      <line x1="60" y1="220" x2="660" y2="220" stroke="var(--color-border)" strokeWidth="1.5"/>
+      <line x1="60" y1="60" x2="60" y2="220" stroke="var(--color-border)" strokeWidth="1.5"/>
+      <text x="44" y="224" textAnchor="end" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">0</text>
+      <text x="44" y="170" textAnchor="end" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">25</text>
+      <text x="44" y="120" textAnchor="end" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">50</text>
+      <text x="44" y="70" textAnchor="end" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">75</text>
+      <line x1="60" y1="168" x2="660" y2="168" stroke="var(--color-border)" strokeWidth="0.5" strokeDasharray="4,4"/>
+      <line x1="60" y1="118" x2="660" y2="118" stroke="var(--color-border)" strokeWidth="0.5" strokeDasharray="4,4"/>
+      <line x1="60" y1="68" x2="660" y2="68" stroke="var(--color-border)" strokeWidth="0.5" strokeDasharray="4,4"/>
+      <rect x="110" y="140" width="80" height="80" rx="4" fill="var(--color-border)" opacity="0.6"/>
+      <text x="150" y="236" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">SDE1</text>
+      <rect x="240" y="100" width="80" height="120" rx="4" fill="var(--color-accent)" opacity="0.25"/>
+      <text x="280" y="236" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">SDE2</text>
+      <text x="150" y="188" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">code</text>
+      <text x="280" y="148" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">code</text>
+      <text x="280" y="162" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">+scope</text>
+      <text x="280" y="176" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">+comms</text>
+      <text x="280" y="190" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">+review</text>
+      <path d="M 370 130 Q 420 100 460 80" stroke="var(--color-accent)" strokeWidth="1.5" fill="none" strokeDasharray="5,3" markerEnd="url(#pi-arr)"/>
+      <text x="465" y="76" fontSize="12" fill="var(--color-accent)" fontFamily="monospace">the job expands</text>
+      <text x="465" y="91" fontSize="12" fill="var(--color-accent)" fontFamily="monospace">beyond the code</text>
+      <text x="360" y="30" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">what changes at mid-level</text>
+    </svg>
+  );
+}
+
+<svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'0 0 2rem',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  {/* grid lines */}
+  <line x1="60" y1="220" x2="660" y2="220" stroke="var(--color-border)" strokeWidth="1.5"/>
+  <line x1="60" y1="60" x2="60" y2="220" stroke="var(--color-border)" strokeWidth="1.5"/>
+  {/* y-axis labels */}
+  <text x="44" y="224" textAnchor="end" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">0</text>
+  <text x="44" y="170" textAnchor="end" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">25</text>
+  <text x="44" y="120" textAnchor="end" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">50</text>
+  <text x="44" y="70" textAnchor="end" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">75</text>
+  <line x1="60" y1="168" x2="660" y2="168" stroke="var(--color-border)" strokeWidth="0.5" strokeDasharray="4,4"/>
+  <line x1="60" y1="118" x2="660" y2="118" stroke="var(--color-border)" strokeWidth="0.5" strokeDasharray="4,4"/>
+  <line x1="60" y1="68" x2="660" y2="68" stroke="var(--color-border)" strokeWidth="0.5" strokeDasharray="4,4"/>
+  {/* SDE1 bar */}
+  <rect x="110" y="140" width="80" height="80" rx="4" fill="var(--color-border)" opacity="0.6"/>
+  <text x="150" y="236" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">SDE1</text>
+  {/* SDE2 bars */}
+  <rect x="240" y="100" width="80" height="120" rx="4" fill="var(--color-accent)" opacity="0.25"/>
+  <text x="280" y="236" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">SDE2</text>
+  {/* labels inside bars */}
+  <text x="150" y="188" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">code</text>
+  <text x="280" y="148" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">code</text>
+  <text x="280" y="162" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">+scope</text>
+  <text x="280" y="176" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">+comms</text>
+  <text x="280" y="190" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">+review</text>
+  {/* annotation arrow */}
+  <path d="M 370 130 Q 420 100 460 80" stroke="var(--color-accent)" strokeWidth="1.5" fill="none" strokeDasharray="5,3" markerEnd="url(#arr)"/>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="var(--color-accent)"/>
+    </marker>
+  </defs>
+  <text x="465" y="76" fontSize="12" fill="var(--color-accent)" fontFamily="monospace">the job expands</text>
+  <text x="465" y="91" fontSize="12" fill="var(--color-accent)" fontFamily="monospace">beyond the code</text>
+  {/* sketch title */}
+  <text x="360" y="30" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">what changes at mid-level</text>
+</svg>
+
+There's a version of this post that's a list of tips for getting to SDE2. This isn't that. I'm already here, and what I've found more useful is thinking clearly about what the role actually demands, not as a ladder to climb, but as a job to do well.
+
+Here's how I think about it.
+
+## Owning problems, not just tasks
+
+The clearest difference between junior and mid-level work isn't the complexity of the code. It's the shape of the input. As a junior engineer, someone hands you a well-scoped ticket. As a mid-level engineer, you're often handed a problem, and part of your job is figuring out what the ticket should even be.
+
+That means writing design docs before writing implementations. It means asking "what are we not sure about?" before asking "how do we build this?" It means being the person who flags an underspecified requirement rather than making a silent assumption and moving on.
+
+Reducing uncertainty is the work, not a precursor to it.
+
+<svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  {/* flow: problem -> unknowns -> design -> code */}
+  <rect x="30" y="70" width="110" height="44" rx="8" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="85" y="97" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">problem</text>
+  <line x1="140" y1="92" x2="175" y2="92" stroke="var(--color-border)" strokeWidth="1.5" markerEnd="url(#a2)"/>
+  <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="var(--color-border)"/></marker></defs>
+  <rect x="175" y="70" width="130" height="44" rx="8" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="240" y="90" textAnchor="middle" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">find unknowns</text>
+  <text x="240" y="105" textAnchor="middle" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">eliminate them</text>
+  <line x1="305" y1="92" x2="340" y2="92" stroke="var(--color-border)" strokeWidth="1.5" markerEnd="url(#a2)"/>
+  <rect x="340" y="70" width="110" height="44" rx="8" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="395" y="90" textAnchor="middle" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">design</text>
+  <text x="395" y="105" textAnchor="middle" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">doc</text>
+  <line x1="450" y1="92" x2="485" y2="92" stroke="var(--color-border)" strokeWidth="1.5" markerEnd="url(#a2)"/>
+  <rect x="485" y="70" width="110" height="44" rx="8" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="540" y="90" textAnchor="middle" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">write</text>
+  <text x="540" y="105" textAnchor="middle" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">code</text>
+  <line x1="595" y1="92" x2="630" y2="92" stroke="var(--color-border)" strokeWidth="1.5" markerEnd="url(#a2)"/>
+  <rect x="630" y="70" width="60" height="44" rx="8" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="660" y="97" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">ship</text>
+  <text x="360" y="155" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">SDE2 flow: uncertainty first, code second</text>
+</svg>
+
+## Communicating with precision
+
+At this level, you're in enough meetings, design reviews, and cross-team conversations that vague communication compounds quickly. I've learned to be specific about what I know, what I don't, and what I'm assuming.
+
+Saying "I'm not sure, let me look into that" is not a weakness. It's accurate. It also creates space for others to contribute. Some of the best solutions I've seen came from someone admitting they didn't have the answer and then opening the floor.
+
+The engineers I trust most are the ones whose words I can rely on. That trust is built by not overstating certainty.
+
+## Code review as a craft
+
+Code review is one of the highest-leverage things I do. A good review doesn't just catch bugs. It transfers context, surfaces tradeoffs, and helps the author grow. A bad review is technically correct but practically useless: "this could be simplified" without showing how, "consider a different approach" without explaining why.
+
+I try to write comments that are specific, actionable, and calibrated to the author. The goal is to make the code better and leave the author with a clearer mental model, not to demonstrate that I spotted something.
+
+## Managing scope as a first-class responsibility
+
+I'm often the person closest to the implementation, which means I'm the first to notice when a project is drifting beyond its original boundaries. That makes scope management my responsibility, not someone else's.
+
+This doesn't mean saying no to everything. It means surfacing tradeoffs explicitly: "We can add this, but it'll push the timeline by two weeks. Is that the right call?" That conversation is far better than silently absorbing the extra work and then missing the deadline. The goal is to make the cost of decisions visible so the right people can make them.
+
+<svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  {/* scope creep sketch */}
+  <text x="360" y="28" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">scope creep, visualised</text>
+  {/* original box */}
+  <rect x="60" y="50" width="160" height="100" rx="6" fill="var(--color-accent)" opacity="0.12" stroke="var(--color-accent)" strokeWidth="1.5" strokeDasharray="0"/>
+  <text x="140" y="105" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace">original scope</text>
+  {/* crept additions */}
+  <rect x="220" y="50" width="80" height="50" rx="6" fill="var(--color-border)" opacity="0.5" stroke="var(--color-border)" strokeWidth="1" strokeDasharray="5,3"/>
+  <text x="260" y="80" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">"just add</text>
+  <text x="260" y="93" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">this too"</text>
+  <rect x="300" y="50" width="80" height="70" rx="6" fill="var(--color-border)" opacity="0.4" stroke="var(--color-border)" strokeWidth="1" strokeDasharray="5,3"/>
+  <text x="340" y="88" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">"one more</text>
+  <text x="340" y="101" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">thing"</text>
+  <rect x="380" y="50" width="60" height="90" rx="6" fill="var(--color-border)" opacity="0.3" stroke="var(--color-border)" strokeWidth="1" strokeDasharray="5,3"/>
+  <text x="410" y="98" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">...</text>
+  {/* arrow pointing to surface it */}
+  <path d="M 460 95 Q 530 60 580 75" stroke="var(--color-accent)" strokeWidth="1.5" fill="none" markerEnd="url(#a3)"/>
+  <defs><marker id="a3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="var(--color-accent)"/></marker></defs>
+  <text x="590" y="72" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">surface it.</text>
+  <text x="590" y="87" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">name the cost.</text>
+  <text x="590" y="102" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">let them decide.</text>
+  <text x="360" y="175" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">your job is to make tradeoffs visible, not absorb them silently</text>
+</svg>
+
+## Working across team boundaries
+
+Most of the interesting work at this level involves coordination across teams, integrating with another team's API, aligning on a shared data model, getting buy-in for a breaking change. How smoothly that goes depends almost entirely on the relationships built before anyone needed anything.
+
+I invest time in understanding what adjacent teams are working on, even when it's not directly relevant to my current project. When I do need to ask for something, I'm asking a colleague, not a stranger. That difference matters more than most people expect.
+
+## Making work legible
+
+Technical skill is necessary but not sufficient. The engineers with the most impact are the ones whose work is easy to understand, review, and build on. Clear commit messages, design docs that explain the *why* not just the *what*, code written for the next person who has to maintain it.
+
+Legibility is also how trust compounds. When your work is easy to follow, people feel confident delegating to you. When it's opaque, even good work creates friction. At mid-level, you're starting to be the person others build on top of. That changes what "good work" means.
+
+That's my take on what it actually means to operate as a mid-level engineer. Not the title, not the promo doc, just the job. Thanks and peace.

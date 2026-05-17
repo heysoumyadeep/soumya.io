@@ -1,0 +1,312 @@
+export const frontmatter = {
+  title: "Ever wondered how indexing works in databases?",
+  date: "2025-12-03",
+  readTime: "6 min",
+  excerpt: "B-Trees, hash indexes, LSM trees, and what your database is really doing when you CREATE INDEX.",
+  author: "Soumyadeep Pradhan",
+  tags: ["databases", "backend", "performance", "deep-dive"]
+}
+
+export function PreviewImage() {
+  return (
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%',display:'block'}}>
+      <defs><marker id="pi-arrow1" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L0,8 L10,4 z" fill="var(--color-accent)"/></marker></defs>
+      <text x="360" y="30" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">query performance: before and after indexing</text>
+      <text x="180" y="65" textAnchor="middle" fontSize="12" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">without index</text>
+      <rect x="60" y="80" width="240" height="60" rx="6" fill="var(--color-border)" opacity="0.4" stroke="var(--color-border)" strokeWidth="1.2"/>
+      <text x="180" y="105" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">scan all 10M rows</text>
+      <text x="180" y="125" textAnchor="middle" fontSize="14" fill="var(--color-text-dim)" fontFamily="monospace" fontWeight="600">30 seconds</text>
+      <text x="540" y="65" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">with index</text>
+      <rect x="420" y="80" width="240" height="60" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+      <text x="540" y="105" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">~3 disk reads</text>
+      <text x="540" y="125" textAnchor="middle" fontSize="14" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">40 milliseconds</text>
+      <line x1="300" y1="110" x2="420" y2="110" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#pi-arrow1)"/>
+      <text x="360" y="100" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">CREATE INDEX</text>
+      <text x="360" y="175" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">750x faster: not magic, just the right data structure</text>
+    </svg>
+  );
+}
+
+A teammate asked me to look at a slow endpoint last quarter. One WHERE clause, one column. 40ms in dev, 30 seconds in production. We added an index. Back to 40ms.
+
+If you've shipped anything that touches a database, you've seen this movie. CREATE INDEX, walk away, problem solved. It feels like magic.
+
+But it isn't. It's a B-Tree. Or a hash table. Or an LSM tree. Your database is quietly building one of these data structures for you, and which one it picks changes everything about how your system performs.
+
+Let's open the hood.
+
+<svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'0 0 2rem',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <defs><marker id="arrow1" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L0,8 L10,4 z" fill="var(--color-accent)"/></marker></defs>
+  <text x="360" y="30" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">query performance: before and after indexing</text>
+  <text x="180" y="65" textAnchor="middle" fontSize="12" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">without index</text>
+  <rect x="60" y="80" width="240" height="60" rx="6" fill="var(--color-border)" opacity="0.4" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="180" y="105" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">scan all 10M rows</text>
+  <text x="180" y="125" textAnchor="middle" fontSize="14" fill="var(--color-text-dim)" fontFamily="monospace" fontWeight="600">30 seconds</text>
+  <text x="540" y="65" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">with index</text>
+  <rect x="420" y="80" width="240" height="60" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="540" y="105" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">~3 disk reads</text>
+  <text x="540" y="125" textAnchor="middle" fontSize="14" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">40 milliseconds</text>
+  <line x1="300" y1="110" x2="420" y2="110" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#arrow1)"/>
+  <text x="360" y="100" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">CREATE INDEX</text>
+  <text x="360" y="175" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">750x faster: not magic, just the right data structure</text>
+</svg>
+
+## What an index actually is
+
+Think of a phone book. If you want to find "Soumyadeep," you don't read every name from page 1. The book is sorted alphabetically, so you flip to "S" and you're there in seconds.
+
+An index is the same idea: a sorted shortcut, stored on disk, that points back to your actual rows. Without it, the database has to read every single row to find what you want. With it, it can jump straight to the answer.
+
+```sql
+-- Without an index: read all 10 million rows. Slow.
+SELECT * FROM users WHERE email = 'a@b.com';
+
+-- After this, the same query takes about 3 disk reads.
+CREATE INDEX idx_users_email ON users(email);
+```
+
+But there's no free lunch. You're trading three things to get faster reads:
+
+- **Disk space.** The index is a separate file living next to your table.
+- **Write speed.** Every INSERT, UPDATE, or DELETE now has to update the index too.
+- **Memory.** The database keeps hot indexes in RAM to make lookups even faster.
+
+Hold onto these three trade-offs. They'll matter later.
+
+## B-Trees: the default
+
+When you write `CREATE INDEX` in Postgres, MySQL, SQL Server, or Oracle, you get a B-Tree (technically a B+Tree). It's the default because it's good at almost everything.
+
+A B-Tree is just a sorted tree, like a tournament bracket but flipped upside down. You start at the top, ask "is my value smaller or bigger than this?", and follow the right branch down. Each node on the way down narrows your search.
+
+<svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <defs><marker id="arrow2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="var(--color-accent)"/></marker></defs>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">B-Tree structure</text>
+  <rect x="320" y="45" width="80" height="35" rx="6" fill="var(--color-accent)" opacity="0.2" stroke="var(--color-accent)" strokeWidth="1.5"/>
+  <text x="360" y="67" textAnchor="middle" fontSize="13" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">50</text>
+  <rect x="140" y="110" width="100" height="35" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="190" y="132" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace">20, 35</text>
+  <rect x="480" y="110" width="100" height="35" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="530" y="132" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace">70, 85</text>
+  <line x1="340" y1="80" x2="190" y2="110" stroke="var(--color-border)" strokeWidth="1.5"/>
+  <line x1="380" y1="80" x2="530" y2="110" stroke="var(--color-border)" strokeWidth="1.5"/>
+  <rect x="60" y="175" width="60" height="35" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1"/>
+  <text x="90" y="197" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">5,12</text>
+  <rect x="140" y="175" width="60" height="35" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1"/>
+  <text x="170" y="197" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">22,28</text>
+  <rect x="220" y="175" width="60" height="35" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1"/>
+  <text x="250" y="197" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">38,42</text>
+  <rect x="440" y="175" width="60" height="35" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1"/>
+  <text x="470" y="197" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">55,63</text>
+  <rect x="520" y="175" width="60" height="35" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1"/>
+  <text x="550" y="197" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">72,78</text>
+  <rect x="600" y="175" width="60" height="35" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1"/>
+  <text x="630" y="197" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">88,95</text>
+  <line x1="165" y1="145" x2="90" y2="175" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="190" y1="145" x2="170" y2="175" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="215" y1="145" x2="250" y2="175" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="505" y1="145" x2="470" y2="175" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="530" y1="145" x2="550" y2="175" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="555" y1="145" x2="630" y2="175" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="120" y1="192" x2="140" y2="192" stroke="var(--color-accent)" strokeWidth="1" strokeDasharray="3,2" markerEnd="url(#arrow2)"/>
+  <line x1="200" y1="192" x2="220" y2="192" stroke="var(--color-accent)" strokeWidth="1" strokeDasharray="3,2" markerEnd="url(#arrow2)"/>
+  <line x1="500" y1="192" x2="520" y2="192" stroke="var(--color-accent)" strokeWidth="1" strokeDasharray="3,2" markerEnd="url(#arrow2)"/>
+  <line x1="580" y1="192" x2="600" y2="192" stroke="var(--color-accent)" strokeWidth="1" strokeDasharray="3,2" markerEnd="url(#arrow2)"/>
+  <line x1="80" y1="225" x2="80" y2="245" stroke="var(--color-text-dim)" strokeWidth="1" markerEnd="url(#arrow2)"/>
+  <text x="100" y="240" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">leaves point to actual table rows</text>
+  <text x="360" y="50" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">interior nodes: signposts</text>
+  <text x="360" y="265" textAnchor="middle" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">leaves linked → range scans</text>
+</svg>
+
+Looking for `38`? Start at the root. 38 < 50, go left. 38 > 35, go right. You land in the leaf with `38, 42`. Done in three steps.
+
+The really beautiful part is how *fast* this scales. Each node holds many keys (often 100+), so each step down narrows your search by 100x. Watch the math:
+
+<svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">B-Tree fanout: exponential capacity</text>
+  <rect x="60" y="50" width="200" height="35" rx="6" fill="var(--color-accent)" opacity="0.25" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="100" y="72" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Depth 1</text>
+  <text x="220" y="72" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">100</text>
+  <rect x="60" y="95" width="200" height="35" rx="6" fill="var(--color-accent)" opacity="0.22" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="100" y="117" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Depth 2</text>
+  <text x="200" y="117" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">10,000</text>
+  <rect x="60" y="140" width="200" height="35" rx="6" fill="var(--color-accent)" opacity="0.18" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="100" y="162" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Depth 3</text>
+  <text x="185" y="162" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">1,000,000</text>
+  <rect x="60" y="185" width="200" height="35" rx="6" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="100" y="207" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Depth 4</text>
+  <text x="170" y="207" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">100,000,000</text>
+  <text x="500" y="60" textAnchor="middle" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">fanout = 100</text>
+  <circle cx="500" cy="85" r="8" fill="var(--color-accent)" opacity="0.8"/>
+  <line x1="500" y1="93" x2="420" y2="115" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="500" y1="93" x2="460" y2="115" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="500" y1="93" x2="500" y2="115" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="500" y1="93" x2="540" y2="115" stroke="var(--color-border)" strokeWidth="1"/>
+  <line x1="500" y1="93" x2="580" y2="115" stroke="var(--color-border)" strokeWidth="1"/>
+  <circle cx="420" cy="120" r="5" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="460" cy="120" r="5" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="500" cy="120" r="5" fill="var(--color-accent)" opacity="0.5"/>
+  <text x="520" y="124" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">...</text>
+  <circle cx="540" cy="120" r="5" fill="var(--color-accent)" opacity="0.5"/>
+  <circle cx="580" cy="120" r="5" fill="var(--color-accent)" opacity="0.5"/>
+  <text x="500" y="150" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">100 children per node</text>
+  <rect x="320" y="175" width="360" height="50" rx="8" fill="var(--color-accent)" opacity="0.1" stroke="var(--color-accent)" strokeWidth="1.5" strokeDasharray="4,4"/>
+  <text x="500" y="197" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">100M rows = 4 disk reads</text>
+  <text x="500" y="215" textAnchor="middle" fontSize="11" fill="var(--color-text-dim)" fontFamily="monospace">logarithmic lookup stays fast at scale</text>
+</svg>
+
+100 million rows, found in 4 steps. That's why a `WHERE id = ?` query stays snappy even when your table is huge.
+
+There's a bonus: the leaves at the bottom are linked together in order. So once you find a starting point, you can just walk forward. That's why ranges are fast too:
+
+```sql
+SELECT * FROM orders
+WHERE created_at BETWEEN '2026-01-01' AND '2026-01-31'
+ORDER BY created_at;
+```
+
+### One trap to remember
+
+This catches everyone exactly once:
+
+```sql
+-- Uses the index. Fast.
+SELECT * FROM users WHERE email = 'a@b.com';
+
+-- Skips the index entirely. Reads every row.
+SELECT * FROM users WHERE LOWER(email) = 'a@b.com';
+```
+
+Why? The index is sorted by `email`, not by `LOWER(email)`. The function changes the value, and the database can't use the sorted shortcut anymore. Same thing happens if you compare a number column to a string by accident.
+
+The fix is either an index built specifically on `LOWER(email)`, or storing the email lowercased to begin with.
+
+## Hash indexes: fast but limited
+
+A hash index works like a coat check at a restaurant. You hand over your ticket number, and they go straight to the matching hook. Lookup is instant, no searching.
+
+The catch: the hooks are arranged in random order. So if you ask "give me everyone whose ticket starts with 4," they have to check every hook. Hash indexes only help with exact matches:
+
+- `WHERE email = 'x'` works.
+- `WHERE email LIKE 'x%'` doesn't.
+- `WHERE email > 'x'` doesn't.
+- `ORDER BY email` doesn't.
+
+That's why B-Trees are usually preferred. They handle equality just fine *and* support ranges and sorting. Hash indexes only win in narrow cases (very large equality-only columns), which is why most of us never reach for them.
+
+## LSM Trees: built for heavy writes
+
+Imagine you're a librarian and books arrive every minute. With a B-Tree, you'd have to walk into the right aisle and slot each book in its correct alphabetical spot. Exhausting.
+
+LSM trees say: "Just dump new books in a small bin near the door. Once the bin fills up, sort it and stack it. Later, merge older stacks together when you have time." Writes become fast and sequential.
+
+This is what powers Cassandra, RocksDB, LevelDB, and ScyllaDB.
+
+<svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <defs>
+    <marker id="arrow3" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L0,8 L10,4 z" fill="var(--color-accent)"/></marker>
+    <marker id="arrow4" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L0,8 L10,4 z" fill="var(--color-border)"/></marker>
+  </defs>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">LSM Tree: write path</text>
+  <text x="360" y="45" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">writes stay in memory, flush to immutable files, then merge over time</text>
+  <text x="60" y="95" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">writes →</text>
+  <line x1="110" y1="90" x2="150" y2="90" stroke="var(--color-accent)" strokeWidth="2" markerEnd="url(#arrow3)"/>
+  <rect x="150" y="70" width="140" height="45" rx="6" fill="var(--color-accent)" opacity="0.25" stroke="var(--color-accent)" strokeWidth="1.5"/>
+  <text x="220" y="90" textAnchor="middle" fontSize="12" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">Memtable</text>
+  <text x="220" y="107" textAnchor="middle" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">(in RAM, sorted)</text>
+  <line x1="220" y1="115" x2="220" y2="145" stroke="var(--color-border)" strokeWidth="2" markerEnd="url(#arrow4)"/>
+  <text x="250" y="132" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">flush when full</text>
+  <text x="60" y="165" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">L0</text>
+  <rect x="100" y="145" width="100" height="30" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="150" y="165" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">SSTable</text>
+  <rect x="220" y="145" width="100" height="30" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="270" y="165" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">SSTable</text>
+  <rect x="340" y="145" width="100" height="30" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="390" y="165" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">SSTable</text>
+  <text x="460" y="165" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">immutable, sorted</text>
+  <line x1="270" y1="175" x2="270" y2="205" stroke="var(--color-border)" strokeWidth="2" markerEnd="url(#arrow4)"/>
+  <text x="300" y="192" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">compaction merges files</text>
+  <text x="60" y="225" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">L1</text>
+  <rect x="100" y="205" width="120" height="30" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="160" y="225" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">SSTable</text>
+  <rect x="240" y="205" width="120" height="30" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="300" y="225" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">SSTable</text>
+  <rect x="380" y="205" width="120" height="30" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="440" y="225" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">SSTable</text>
+  <text x="520" y="225" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">...</text>
+  <line x1="300" y1="235" x2="300" y2="265" stroke="var(--color-border)" strokeWidth="2" markerEnd="url(#arrow4)"/>
+  <text x="60" y="285" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">L2</text>
+  <rect x="100" y="265" width="140" height="30" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="170" y="285" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">SSTable</text>
+  <rect x="260" y="265" width="140" height="30" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="330" y="285" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">SSTable</text>
+  <rect x="420" y="265" width="140" height="30" rx="4" fill="var(--color-surface)" stroke="var(--color-border)" strokeWidth="1.2"/>
+  <text x="490" y="285" textAnchor="middle" fontSize="10" fill="var(--color-text-muted)" fontFamily="monospace">SSTable</text>
+  <text x="580" y="285" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">...</text>
+</svg>
+
+Three things happen:
+
+1. **Writes go straight to memory** (the "Memtable", a small sorted bin in RAM).
+2. **When the Memtable fills up,** it gets flushed to disk as a sorted file called an SSTable. These files are never modified, just written once and left alone.
+3. **A background process called compaction** merges older SSTables together to keep things tidy.
+
+The trade-off: writes are blazing fast, but reads might have to check several SSTables to find a value. Smart filters (Bloom filters) help skip files that definitely don't have the key.
+
+## Composite indexes: column order matters
+
+When you index multiple columns together, the order matters more than people realize.
+
+<svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'auto',margin:'1.5rem 0',display:'block',borderRadius:'12px',background:'var(--color-surface)',border:'1px solid var(--color-border)'}}>
+  <text x="360" y="25" textAnchor="middle" fontSize="13" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">Composite Index: leftmost prefix rule</text>
+  <rect x="60" y="45" width="600" height="30" rx="6" fill="var(--color-accent)" opacity="0.1" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="360" y="65" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace">CREATE INDEX idx_orders ON orders(user_id, created_at)</text>
+  <text x="60" y="105" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">Index sorted by:</text>
+  <rect x="180" y="90" width="100" height="25" rx="4" fill="var(--color-accent)" opacity="0.25" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="230" y="107" textAnchor="middle" fontSize="11" fill="var(--color-accent)" fontFamily="monospace" fontWeight="600">user_id</text>
+  <text x="290" y="107" fontSize="12" fill="var(--color-text-dim)" fontFamily="monospace">→</text>
+  <rect x="310" y="90" width="110" height="25" rx="4" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="365" y="107" textAnchor="middle" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace">created_at</text>
+  <text x="60" y="145" fontSize="11" fill="var(--color-text-muted)" fontFamily="monospace" fontWeight="600">Query patterns:</text>
+  <rect x="60" y="160" width="600" height="25" rx="4" fill="var(--color-accent)" opacity="0.15" stroke="var(--color-accent)" strokeWidth="1.2"/>
+  <text x="70" y="177" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">✓ WHERE user_id = 42 AND created_at &gt; '2026-01-01'</text>
+  <text x="550" y="177" fontSize="9" fill="var(--color-accent)" fontFamily="monospace">uses full index</text>
+  <rect x="60" y="195" width="600" height="25" rx="4" fill="var(--color-accent)" opacity="0.12" stroke="var(--color-accent)" strokeWidth="1"/>
+  <text x="70" y="212" fontSize="10" fill="var(--color-accent)" fontFamily="monospace">✓ WHERE user_id = 42</text>
+  <text x="550" y="212" fontSize="9" fill="var(--color-accent)" fontFamily="monospace">uses user_id part</text>
+  <rect x="60" y="230" width="600" height="25" rx="4" fill="var(--color-border)" opacity="0.3" stroke="var(--color-border)" strokeWidth="1"/>
+  <text x="70" y="247" fontSize="10" fill="var(--color-text-dim)" fontFamily="monospace">✗ WHERE created_at &gt; '2026-01-01'</text>
+  <text x="550" y="247" fontSize="9" fill="var(--color-text-dim)" fontFamily="monospace">can't use index</text>
+</svg>
+
+Think back to the phone book. It's sorted by last name, then first name. So you can find "Pradhan, Soumyadeep" quickly. You can also find everyone with last name "Pradhan." But what if I asked you for everyone named "Soumyadeep" regardless of last name? You'd have to read the whole book.
+
+Same rule for composite indexes: you can use them as long as your query starts from the leftmost column. This single rule explains most "why isn't my index working?" confusion.
+
+A useful tip: **put equality columns first, range columns last.** `WHERE user_id = ? AND created_at > ?` works perfectly with `(user_id, created_at)`.
+
+## When indexes hurt you
+
+Indexes aren't free. Every index you add has to be updated on every INSERT, UPDATE, and DELETE. A table with 8 indexes does roughly **9x the work** on every write.
+
+I've seen teams add "just one more index" until checkout latency doubled and nobody could explain why. Watch out for:
+
+- **Unused indexes.** If nobody queries on a column, the index is just write tax. In Postgres, run `pg_stat_user_indexes` to find indexes nobody is reading.
+- **Duplicate coverage.** An index on `(user_id, created_at)` already handles queries on `(user_id)` alone. The standalone one is dead weight.
+- **Indexes on rarely-filtered columns.** A boolean `is_active` column has only two values, so an index on it isn't much help.
+
+The rule I've internalized: **add an index when you have a measured slow query, not because a column "feels" indexable.**
+
+## What I'd actually do
+
+A short checklist before shipping anything that touches a real database:
+
+1. **Run `EXPLAIN ANALYZE`** on every query that hits a big table. If you see `Seq Scan` and "Rows Removed by Filter" in the thousands, you've found your problem.
+2. **Index your foreign keys.** Most ORMs don't do this for you, and joins on unindexed FKs are silent killers.
+3. **Order composite columns deliberately:** equality first, range last.
+4. **Audit unused indexes** every month or so.
+5. **Never add an index "just in case."** If you can't point to a slow query it fixes, you're paying for nothing.
+
+## In short:
+
+An index is a tax on writes that you pay for cheaper reads. Pick the structure that matches your workload, the columns that match your queries, and the maintenance you can keep up with. Next time a 30-second query drops to 30 milliseconds, you'll know exactly which sorted structure just saved your evening.

@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "short_name": "Soumyadeep",
+  "name": "Soumyadeep Pradhan",
+  "description": "Personal portfolio and blog of Soumyadeep Pradhan (heysoumyadeep), Full-Stack Developer (SDE2) at JPMorgan Chase & Co.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1c031b",
+  "background_color": "#1c031b",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["portfolio", "technology", "blog", "education"],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Read Soumyadeep's engineering blog",
+      "url": "/blog",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    }
+  ]
+}
