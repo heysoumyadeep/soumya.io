@@ -7,7 +7,7 @@
     <language>en-us</language>
     <managingEditor>contact@soumya.io (Soumyadeep Pradhan)</managingEditor>
     <webMaster>contact@soumya.io (Soumyadeep Pradhan)</webMaster>
-    <lastBuildDate>Sat, 03 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 17 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://soumya.io/rss.xml" rel="self" type="application/rss+xml" />
     <image>
       <url>https://soumya.io/og-image.png</url>
@@ -18,7 +18,7 @@
       <title>Vector indexing in RAG: why embeddings need a different kind of index</title>
       <link>https://soumya.io/blog/rag-chunking-indexing</link>
       <guid isPermaLink="true">https://soumya.io/blog/rag-chunking-indexing</guid>
-      <pubDate>Wed, 06 May 2026 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 17 May 2026 00:00:00 +0000</pubDate>
       <description>You can't B-Tree your way through meaning. Here's why vector search needs graph-based indexes and how they make RAG systems fast.</description>
       <author>contact@soumya.io (Soumyadeep Pradhan)</author>
       <category>llm</category>
