@@ -1,6 +1,6 @@
 # Personal Portfolio (Next.js 16)
 
-[![Site status](https://img.shields.io/website?url=https%3A%2F%2Fsoumya.io&label=soumya.io&style=flat-square)](https://soumya.io)
+[![Site status](https://img.shields.io/website?url=https%3A%2F%2Fsoumya.io&label=soumya.io&style=flat-square)](https://www.soumya.io)
 
 Personal portfolio + blog built with Next.js 16 (App Router). Every route ships as prerendered HTML — `/`, `/blog`, and one page per post.
 
