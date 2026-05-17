@@ -1,6 +1,16 @@
-# Personal Portfolio (Next.js 16)
+# Personal Portfolio &thinsp; <a href="https://www.soumya.io" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/website?url=https%3A%2F%2Fsoumya.io&label=soumya.io&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzJEMTQyQyIvPjx0ZXh0IHg9IjE2IiB5PSIyMiIgZm9udC1mYW1pbHk9IlBvcHBpbnMsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNFRTQ1NDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlM8L3RleHQ+PC9zdmc+&color=00C7B7" alt="soumya.io" /></a>
 
-[![Site status](https://img.shields.io/website?url=https%3A%2F%2Fsoumya.io&label=soumya.io&style=flat-square)](https://www.soumya.io)
+<a href="https://www.soumya.io" target="_blank" rel="noopener noreferrer"><img width="1904" height="938" alt="image" src="https://github.com/user-attachments/assets/e7a91eb3-64c8-4465-bca4-ee60ca95c5fa" /></a>
+
+## Tech stack
+
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![MDX](https://img.shields.io/badge/MDX-1B1F24?style=flat-square&logo=mdx&logoColor=white)
+![Sass](https://img.shields.io/badge/Sass-CC6699?style=flat-square&logo=sass&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white)
+![Resend](https://img.shields.io/badge/Resend-000000?style=flat-square&logo=resend&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
 
 Personal portfolio + blog built with Next.js 16 (App Router). Every route ships as prerendered HTML — `/`, `/blog`, and one page per post.
 
