@@ -1,6 +1,6 @@
-# soumya.io
+# Personal Portfolio (Next.js 16)
 
-[![Site status](https://img.shields.io/website?url=https%3A%2F%2Fsoumya.io&label=soumya.io&style=flat-square)](https://soumya.io)
+[![Site status](https://img.shields.io/website?url=https%3A%2F%2Fsoumya.io&label=soumya.io&style=flat-square)](https://www.soumya.io)
 
 Personal portfolio + blog built with Next.js 16 (App Router). Every route ships as prerendered HTML — `/`, `/blog`, and one page per post.
 
@@ -85,12 +85,12 @@ rm -rf .next && npm run dev
 # Then hard-refresh: Cmd+Shift+R / Ctrl+Shift+R
 ```
 
-Build output is unaffected — static HTML per route has no such issue.
+Build output is unaffected, static HTML per route has no such issue.
 
 ### Theme flashes on refresh
 
-Shouldn't happen — `<html>` starts with `visibility:hidden` until the inline bootstrap script reads `localStorage` and sets `data-theme`. If you see it, hard-refresh once to clear stale cached HTML.
+Shouldn't happen - `<html>` starts with `visibility:hidden` until the inline bootstrap script reads `localStorage` and sets `data-theme`. If you see it, hard-refresh once to clear stale cached HTML.
 
 ## License
 
-CC-BY-NC-ND-4.0 — see project root.
+CC-BY-NC-ND-4.0 - see project root.
