@@ -4,6 +4,8 @@ import { ThemeProvider } from '@hooks/useTheme.jsx';
 import CursorGlow from '@components/cursor-glow/CursorGlow.client.jsx';
 import NavigationLoader from '@components/navigation-loader/NavigationLoader.jsx';
 import InitialLoader from '@components/loader/InitialLoader.jsx';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
 import { SITE_CONFIG } from '@config/site';
 import '@styles/global.scss';
 
@@ -150,6 +152,9 @@ export default function RootLayout({ children }) {
             </Script>
           </>
         ) : null}
+
+        <Analytics />
+        <SpeedInsights />
 
         <script
           defer

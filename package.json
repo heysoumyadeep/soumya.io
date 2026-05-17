@@ -7,9 +7,11 @@
   "license": "CC-BY-NC-ND-4.0",
   "scripts": {
     "dev": "next dev -p 3000",
+    "prebuild": "node scripts/generate-og-images.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-og": "node scripts/generate-og-images.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -17,6 +19,8 @@
     "@next/mdx": "^16.2.6",
     "@supabase/supabase-js": "^2.45.4",
     "@types/mdx": "^2.0.13",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "highlight.js": "^11.10.0",
     "next": "^16.2.6",
     "react": "^19.1.0",
@@ -24,6 +28,7 @@
     "resend": "^6.12.3"
   },
   "devDependencies": {
-    "sass": "^1.79.0"
+    "sass": "^1.79.0",
+    "sharp": "^0.34.5"
   }
 }

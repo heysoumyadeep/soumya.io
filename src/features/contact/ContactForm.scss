@@ -1,4 +1,4 @@
-.contact-form {
+﻿.contact-form {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -26,18 +26,18 @@
     padding: var(--space-7) var(--space-6);
 
     h3 {
-      font-size: 22px;
+      font-size: var(--font-size-4xl);
       font-weight: 600;
       color: var(--color-text);
       margin-bottom: var(--space-1);
     }
 
     p {
-      font-size: 15px;
+      font-size: var(--font-size-lg);
       color: var(--color-text-muted);
       max-width: 360px;
       margin-bottom: var(--space-4);
-      line-height: 1.5;
+      line-height: var(--leading-normal);
     }
 
     .btn { align-self: center; }
@@ -48,7 +48,7 @@
 
 .contact-form__label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-muted);
@@ -60,7 +60,7 @@
   background: var(--color-bg);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-md);
-  font-size: 15px;
+  font-size: var(--font-size-lg);
   color: var(--color-text);
   outline: none;
   transition: border-color var(--duration-hover) var(--ease),
@@ -80,7 +80,7 @@
     resize: vertical;
     min-height: 120px;
     font-family: inherit;
-    line-height: 1.55;
+    line-height: var(--leading-relaxed);
   }
 
   &.has-error {
@@ -91,7 +91,7 @@
   }
 }
 
-.contact-form__error { font-size: 12px; color: var(--color-error); }
+.contact-form__error { font-size: var(--font-size-sm); color: var(--color-error); }
 
 .contact-form__success-icon {
   width: 56px;

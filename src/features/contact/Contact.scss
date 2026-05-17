@@ -1,4 +1,4 @@
-.contact { position: relative; z-index: 2; }
+﻿.contact { position: relative; z-index: 2; }
 
 .contact__lede {
   text-align: center;
@@ -6,7 +6,7 @@
   color: var(--color-text-muted);
   max-width: 560px;
   margin: 0 auto var(--space-7);
-  line-height: 1.6;
+  line-height: var(--leading-loose);
 }
 
 .contact__wrap {
@@ -16,7 +16,7 @@
 
 .contact__direct {
   text-align: center;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   color: var(--color-text-muted);
   margin-top: var(--space-5);
 }

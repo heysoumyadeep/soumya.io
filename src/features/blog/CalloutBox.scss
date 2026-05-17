@@ -1,4 +1,4 @@
-.callout-box {
+﻿.callout-box {
   position: relative;
   margin: var(--space-6) 0;
   padding-right: calc(var(--space-3) + var(--space-1));
@@ -86,7 +86,7 @@
   border: var(--border-width) solid var(--color-accent);
   border-radius: var(--radius-pill);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--font-size-2xs);
   font-weight: 400;
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
@@ -97,7 +97,7 @@
 
 .callout-box__duration {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   font-weight: 400;
   color: var(--color-text-dim);
 }
@@ -107,7 +107,7 @@
   font-weight: 700;
   color: var(--color-text);
   margin: var(--space-1) 0 var(--space-2);
-  line-height: 1.35;
+  line-height: var(--leading-snug)5;
 }
 
 .callout-box__link {

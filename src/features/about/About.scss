@@ -1,4 +1,4 @@
-.about { position: relative; z-index: 2; }
+﻿.about { position: relative; z-index: 2; }
 
 .about__grid {
   display: grid;
@@ -25,7 +25,7 @@
   margin: 0;
   padding: var(--space-3) var(--space-4);
   border-left: var(--border-width-accent) solid var(--color-accent);
-  font-size: 16px;
+  font-size: var(--font-size-xl);
   line-height: 1.7;
   color: var(--color-text-muted);
   font-style: italic;
@@ -35,7 +35,7 @@
 }
 
 .about__funfact-label {
-  font-size: 12px;
+  font-size: var(--font-size-sm);
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -51,7 +51,7 @@
 }
 
 .about__skills-title {
-  font-size: 22px;
+  font-size: var(--font-size-4xl);
   font-weight: 600;
   letter-spacing: -0.02em;
   margin-bottom: var(--space-2);
@@ -59,10 +59,10 @@
 }
 
 .about__skills-lede {
-  font-size: 14px;
+  font-size: var(--font-size-base);
   color: var(--color-text-muted);
   margin-bottom: var(--space-5);
-  line-height: 1.5;
+  line-height: var(--leading-normal);
 }
 
 .about__skills-category {
@@ -72,7 +72,7 @@
 }
 
 .about__skills-category-title {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;

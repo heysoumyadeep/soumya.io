@@ -1,4 +1,4 @@
-.hero {
+﻿.hero {
   min-height: 100vh;
   padding: 160px 0 var(--space-9);
   display: flex;
@@ -9,7 +9,7 @@
 }
 
 .hero__greeting {
-  font-size: 18px;
+  font-size: var(--font-size-2xl);
   color: var(--color-accent);
   margin-bottom: var(--space-3);
   font-weight: 500;
@@ -32,7 +32,7 @@
 
 .hero__tagline {
   font-size: clamp(18px, 2vw, 22px);
-  line-height: 1.5;
+  line-height: var(--leading-normal);
   color: var(--color-text-muted);
   max-width: 720px;
   margin-bottom: var(--space-7);
@@ -41,7 +41,7 @@
 }
 
 .hero__tagline-label {
-  font-size: 13px;
+  font-size: var(--font-size-md);
   color: var(--color-text-dim);
   text-transform: uppercase;
   letter-spacing: 0.08em;

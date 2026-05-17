@@ -1,4 +1,4 @@
-// Premium gate
+﻿// Premium gate
 
 .premium-gate { position: relative; margin-top: var(--space-6); }
 
@@ -69,7 +69,7 @@
   padding: var(--space-3) var(--space-6);
   background: var(--gradient-accent);
   color: var(--color-white);
-  font-size: 15px;
+  font-size: var(--font-size-lg);
   font-weight: 600;
   border: none;
   border-radius: var(--radius-pill);
@@ -96,7 +96,7 @@
 .premium-gate__passcode-link {
   background: none;
   border: none;
-  font-size: 13px;
+  font-size: var(--font-size-md);
   color: var(--color-text-muted);
   cursor: pointer;
   text-decoration: underline;
@@ -146,7 +146,7 @@
 }
 
 .passcode-modal__title {
-  font-size: 22px;
+  font-size: var(--font-size-4xl);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--color-text);
@@ -154,10 +154,10 @@
 }
 
 .passcode-modal__subtitle {
-  font-size: 14px;
+  font-size: var(--font-size-base);
   color: var(--color-text-muted);
   margin-bottom: var(--space-6);
-  line-height: 1.5;
+  line-height: var(--leading-normal);
 }
 
 .passcode-modal__inputs {
@@ -171,7 +171,7 @@
   width: 48px;
   height: 56px;
   text-align: center;
-  font-size: 24px;
+  font-size: var(--font-size-5xl);
   font-weight: 600;
   font-family: var(--font-mono);
   color: var(--color-text);
@@ -195,7 +195,7 @@
 }
 
 .passcode-modal__error {
-  font-size: 13px;
+  font-size: var(--font-size-md);
   color: var(--color-accent);
   margin-bottom: var(--space-4);
   font-weight: 500;
@@ -206,7 +206,7 @@
   padding: 14px var(--space-5);
   background: var(--gradient-accent);
   color: var(--color-white);
-  font-size: 15px;
+  font-size: var(--font-size-lg);
   font-weight: 600;
   border: none;
   border-radius: var(--radius-pill);
@@ -220,7 +220,7 @@
 .passcode-modal__cancel {
   background: none;
   border: none;
-  font-size: 13px;
+  font-size: var(--font-size-md);
   color: var(--color-text-dim);
   cursor: pointer;
   padding: var(--space-1) var(--space-3);
@@ -235,5 +235,5 @@
 @media (max-width: 480px) {
   .premium-gate__preview { max-height: 280px; }
   .passcode-modal__inputs { gap: var(--space-1); }
-  .passcode-modal__input { width: 40px; height: 50px; font-size: 20px; }
+  .passcode-modal__input { width: 40px; height: 50px; font-size: var(--font-size-3xl); }
 }

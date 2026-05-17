@@ -1,4 +1,4 @@
-/* Snackbar */
+﻿/* Snackbar */
 
 .support-snackbar {
   position: fixed;
@@ -50,14 +50,14 @@
 }
 
 .support-snackbar__text {
-  font-size: 13px;
+  font-size: var(--font-size-md);
   font-weight: 600;
   color: var(--color-text);
   white-space: nowrap;
 }
 
 .support-snackbar__sub {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-muted);
   white-space: nowrap;
 }
@@ -99,7 +99,7 @@
   border: none;
   cursor: pointer;
   color: var(--color-text-dim);
-  font-size: 10px;
+  font-size: var(--font-size-2xs);
   border-radius: 50%;
   transition: color var(--duration-hover) ease,
               background-color var(--duration-hover) ease;

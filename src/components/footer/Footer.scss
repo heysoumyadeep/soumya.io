@@ -1,4 +1,4 @@
-.footer {
+﻿.footer {
   border-top: var(--border-width) solid var(--color-border);
   padding: var(--space-6) 0 var(--space-5);
   background: var(--color-surface);
@@ -51,7 +51,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 15px;
+  font-size: var(--font-size-lg);
   animation: pulse-heart 1.6s ease-in-out infinite;
 }
 
@@ -62,7 +62,7 @@
 
 .footer__meta {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-dim);
   letter-spacing: 0.04em;
 }

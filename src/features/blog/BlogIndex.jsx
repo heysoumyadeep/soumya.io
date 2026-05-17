@@ -7,6 +7,15 @@ import PostCard from './PostCard';
 import { loadPostModule } from '@lib/post-loaders';
 import './BlogIndex.scss';
 
+const UPCOMING_POST = {
+  slug: '__upcoming__',
+  title: 'Architectural Patterns I Followed While Building This Portfolio',
+  excerpt:
+    'Mistakes I made, decisions I second-guessed, and patterns that actually held up. ',
+  date: 'Coming soon',
+  readTime: '?',
+};
+
 export default function BlogIndex({ posts: serverPosts }) {
   const [posts] = useState(serverPosts || []);
   const [query, setQuery] = useState('');
@@ -184,7 +193,7 @@ export default function BlogIndex({ posts: serverPosts }) {
                 <div className="blog-index__featured-preview">
                   {FeaturedPreview
                     ? <FeaturedPreview />
-                    : <div className="blog-index__preview-fallback" style={{ background: 'linear-gradient(135deg, var(--palette-coral) 0%, var(--palette-crimson) 100%)' }} />
+                    : <div className="blog-index__preview-fallback" />
                   }
                   <span className="blog-index__featured-label">ARTICLE PREVIEW</span>
                   {featuredPost.isPremium && (
@@ -211,13 +220,16 @@ export default function BlogIndex({ posts: serverPosts }) {
               </Link>
             )}
 
-            {otherPosts.length > 0 && (
+            {(otherPosts.length > 0 || featuredPost) && (
               <ul className="blog-index__grid">
                 {otherPosts.map((post, index) => (
                   <li key={post.slug}>
                     <PostCard post={post} index={index + 1} showImage showTags />
                   </li>
                 ))}
+                <li key="upcoming">
+                  <PostCard post={UPCOMING_POST} index={otherPosts.length + 1} showImage showTags upcoming />
+                </li>
               </ul>
             )}
           </>

@@ -1,4 +1,4 @@
-.section-header {
+﻿.section-header {
   margin-bottom: var(--space-7);
 
   &--center {
@@ -17,7 +17,7 @@
 
 .section-header__num {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--font-size-md);
   font-weight: 500;
   background: var(--gradient-accent);
   -webkit-background-clip: text;
@@ -33,7 +33,7 @@
 
 .section-header__label {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--font-size-sm);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-text-muted);

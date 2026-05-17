@@ -77,6 +77,34 @@
   --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
 
+  /* Font size scale */
+  --font-size-2xs: 10px;
+  --font-size-xs:  11px;
+  --font-size-sm:  12px;
+  --font-size-md:  13px;
+  --font-size-base:14px;
+  --font-size-lg:  15px;
+  --font-size-xl:  16px;
+  --font-size-2xl: 18px;
+  --font-size-3xl: 20px;
+  --font-size-4xl: 22px;
+  --font-size-5xl: 24px;
+  --font-size-6xl: 28px;
+
+  /* Line heights */
+  --leading-tight:   1.2;
+  --leading-snug:    1.3;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.55;
+  --leading-loose:   1.6;
+
+  /* Card fallback gradients */
+  --card-gradient-0: linear-gradient(135deg, var(--palette-coral) 0%, var(--palette-crimson) 100%);
+  --card-gradient-1: linear-gradient(135deg, var(--palette-crimson) 0%, var(--palette-burgundy) 100%);
+  --card-gradient-2: linear-gradient(135deg, var(--palette-burgundy) 0%, var(--palette-plum) 100%);
+  --card-gradient-3: linear-gradient(135deg, var(--palette-plum) 0%, var(--palette-deep) 100%);
+  --card-gradient-4: linear-gradient(135deg, var(--palette-coral) 0%, var(--palette-burgundy) 100%);
+
   /* Spacing */
   --space-1:  4px;
   --space-2:  8px;
@@ -111,7 +139,7 @@
   --btn-padding-y:      11px;
   --btn-padding-x:      22px;
   --btn-padding-x-wide: 28px;
-  --btn-font-size:      14px;
+  --btn-font-size:      var(--font-size-base);
   --btn-gap:            var(--space-2);
 
   /* Control sizing (inputs, pills) */
