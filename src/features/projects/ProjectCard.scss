@@ -35,7 +35,7 @@
     &::before { transform: scaleX(1); }
   }
 
-  /* Keyboard focus â€” div with role=link still needs a visible ring */
+  /* Keyboard focus - div with role=link still needs a visible ring */
   &:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;

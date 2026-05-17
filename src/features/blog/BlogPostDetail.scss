@@ -534,7 +534,7 @@
   flex-wrap: wrap;
 }
 
-/* feedback submit â€” uses shared .btn--primary */
+/* feedback submit - uses shared .btn--primary */
 .blog-feedback__submit {
   &:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
 }
